@@ -12,7 +12,7 @@ class Post(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='blog_posts',
+        related_name='blog_posts'
     )
     body = models.TextField()
     publish = models.DateTimeField(default=timezone.now)
@@ -21,10 +21,11 @@ class Post(models.Model):
     status = models.CharField(
         max_length=2,
         choices=Status.choices,
+        default=Status.DRAFT
     )
 
     class Meta:
-        ordering = ('-publish',)
+        ordering = ['-publish']
         indexes = [
             models.Index(fields=['-publish']),
         ]
