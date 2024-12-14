@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.sitemaps',
     'django.contrib.staticfiles',
+    'django.contrib.postgres',
     'taggit',
     'blog.apps.BlogConfig',
 ]
@@ -78,6 +79,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+        'USER': config('DB_USER'),                # Database username
+        'PASSWORD': config('DB_PASSWORD'),        # Database password
+        'HOST': config('DB_HOST', default='127.0.0.1'),  # Database host
+        'PORT': config('DB_PORT', default='5432'),
     }
 }
 
