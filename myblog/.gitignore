@@ -1,1 +1,6 @@
 .env
+blog_env/
+env/
+mysite_data.json
+*.json
+*.sqlite3
