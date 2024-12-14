@@ -1,5 +1,10 @@
 from pathlib import Path
+import os
 from decouple import config
+
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "myblog.settings")
+
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
