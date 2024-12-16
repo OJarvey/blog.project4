@@ -3,7 +3,7 @@ import os
 from decouple import config
 
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "myblog.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mywebsite.settings")
 
 
 EMAIL_HOST = 'smtp.gmail.com'
@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-c#aba7rr(7@lm$+n2+v1s+(qfgsj1x*4$%+6rm+uv_v1dce_bc'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'blog-project4.herokuapp.com']
 
 SITE_ID = 1
 
@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -56,7 +57,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'myblog.urls'
+ROOT_URLCONF = 'mywebsite.urls'
 
 TEMPLATES = [
     {
@@ -74,7 +75,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'myblog.wsgi.application'
+WSGI_APPLICATION = 'mywebsite.wsgi.application'
 
 
 # Database
@@ -126,6 +127,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
