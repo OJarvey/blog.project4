@@ -1,0 +1,6 @@
+web: gunicorn blog.wsgi
+
+
+
+
+
