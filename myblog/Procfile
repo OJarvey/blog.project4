@@ -1,3 +1,4 @@
-web: ls -l
+web: gunicorn myblog.wsgi:application
+
 
 

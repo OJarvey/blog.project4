@@ -1,6 +1,33 @@
-.env
-blog_env/
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+
+# Virtual environments
 env/
+blog_env/
+env*/       # Include any directories named 'env' or similar
+*.env       # Environment variable files
+
+# Django specific
+db.sqlite3
 mysite_data.json
 *.json
-*.sqlite3
+
+# Logs
+*.log
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+
+# Heroku
+runtime.txt
+
+# OS generated files
+.DS_Store
+Thumbs.db
