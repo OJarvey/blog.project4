@@ -1,4 +1,6 @@
-web: gunicorn myblog.wsgi:application
+web: gunicorn blog.wsgi:application
+
+
 
 
 
