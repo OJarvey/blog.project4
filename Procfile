@@ -1,4 +1,5 @@
-web: gunicorn mywebsite.wsgi:application
+web: gunicorn wsgi:application
+
 
 
 
