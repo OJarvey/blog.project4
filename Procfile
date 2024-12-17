@@ -1,15 +1,1 @@
 web: gunicorn myblog.wsgi
-
-
-
-
-
-
-
-
-
-
-
-
-
-
