@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 from decouple import config
+import dj_database_url
 
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "myblog.settings")
@@ -22,6 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-c#aba7rr(7@lm$+n2+v1s+(qfgsj1x*4$%+6rm+uv_v1dce_bc'
+SECRET_KEY = config('av_n^pmol%8=td+wlswh7ik_!irnfmefglgps$p4@r%i0q*rpl')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -89,6 +91,7 @@ DATABASES = {
         'USER': config('DB_USER'),
         'PASSWORD': config('DB_PASSWORD'),
         'HOST': config('DB_HOST'),
+        'default': dj_database_url.config(default=os.environ.get('DATABASE_URL')),
     }
 }
 
