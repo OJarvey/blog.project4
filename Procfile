@@ -1,4 +1,4 @@
-web: gunicorn myblog.wsgi:application --log-file -
+web: gunicorn myblog.wsgi
 
 
 
