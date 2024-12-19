@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-  <h1>Blog Soul</h1>
+  <h1> <a href="{% url 'blog:post_list' %}" class="home-button">Blog Soul</h1>
   {% if tag%}
     <h2>Posts tagged with "{{ tag.name }}"</h2>
   {% endif %}

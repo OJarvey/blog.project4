@@ -4,7 +4,16 @@
   {{ post.title }}
 {% endblock %}
 {% block content %}
-  <h1>{{ post.title }}</h1>
+  <h1><a href="{% url 'blog:post_list' %}" class="btn btn-primary">Home</h1>
+
+  <h2>{{ post.title }}</h2>
+
+  {% for tag in post.tags.all %}
+    <a href="{% url 'blog:post_list_by_tag' tag.slug %}">{{ tag.name }}</a>
+  {% empty %}
+    No tags for this post.
+  {% endfor %}
+  
   <p class="date">Published {{ post.publish }} by {{ post.author }}</p>
   {{ post.body|markdown }}
   <p>
@@ -21,6 +30,8 @@
   {% with total_comments=comments.count %}
     <h2>{{ total_comments }} comment{{ total_comments|pluralize }}</h2>
   {% endwith %}
+
+  <div class="comments-section">
   {% for comment in comments %}
     <div class="comment">
       <p class="info">Comment {{ forloop.counter }} by {{ comment.name }}
@@ -31,4 +42,5 @@
     <p>There are no comments yet.</p>
   {% endfor %}
   {% include 'blog/post/includes/comment_form.html' %}
+  </div>
 {% endblock %}
