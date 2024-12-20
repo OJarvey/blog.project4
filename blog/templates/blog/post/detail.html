@@ -4,6 +4,7 @@
   {{ post.title }}
 {% endblock %}
 {% block content %}
+<div class="centered-content">
   <h1><a href="{% url 'blog:post_list' %}" class="btn btn-primary">Comments</a></h1>
 
   <h2>{{ post.title }}</h2>
@@ -19,7 +20,7 @@
   <p class="date">Published {{ post.publish }} by {{ post.author }}</p>
   {{ post.body|markdown }}
   <p>
-    <a href="{% url 'blog:post_share' post.id %}">Share this post</a>
+    <a href="{% url 'blog:post_share' post.id %}" class="share-button">Share this post</a>
   </p>
   <h2>Similar posts</h2>
   {% for post in similar_posts %}
@@ -41,9 +42,10 @@
         {{ comment.body|linebreaks }}
       </div>
     {% empty %}
-      <p>There are no comments yet.</p>
+      
     {% endfor %}
     {% include 'blog/post/includes/comment_form.html' %}
+  </div>
     <div class="back-button-container">
       <a href="javascript:history.back()" class="btn-back">Back</a>
     </div>

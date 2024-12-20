@@ -5,8 +5,14 @@
 {% endblock %}
 
 {% block content %}
-  <h1> <a href="{% url 'blog:post_list' %}" class="home-button">Blog Soul</h1>
-  {% if tag%}
+<div class="centered-content">
+  <div class="header">
+  <h1 class="center-title"> <a href="{% url 'blog:post_list' %}" class="home-button">Blog Soul</h1>
+    <a href="{% url 'blog:post_search' %}" class="search-icon">
+      <i class="fas fa-search"></i>
+    </a>
+  </div>
+    {% if tag%}
     <h2>Posts tagged with "{{ tag.name }}"</h2>
   {% endif %}
   {% for post in posts %}
@@ -31,4 +37,5 @@
     </div>
   {% endfor %}
   {% include "pagination.html" with page=posts %}
+</div>
 {% endblock %}

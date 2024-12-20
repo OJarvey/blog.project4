@@ -12,6 +12,27 @@ body {
     color: #FFF2D7; 
 }
 
+.header {
+    position: relative;
+    justify-content: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.center-title {
+    text-align: center;
+    flex: 1;
+}
+
+.search-icon {
+    font-size: 1.5em;
+    color: #d5cfcf;
+    text-decoration: none;
+    margin-left: auto;
+}
+
 #tags {
     display: none;
 }
@@ -142,10 +163,65 @@ input[type=submit] {
 .comment .info {
     font-weight:bold;
     font-size:12px;
-    color:#666;
+    color:#d39c24;
+}
+
+.comments-section {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.comment-form, .share-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.comment-form .form-group, .share-form .form-group {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 15px;
+}
+
+.comment-form label, .share-form label {
+    display: block;
+    margin-bottom: 5px;
+    color: #eef3f9;
+}
+
+.comment-form input[type="text"],
+.comment-form textarea, 
+.share-form input[type="text"], 
+.share-form textarea  {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #474b4f;
+    color: #eef3f9;
+}
+
+.comment-form textarea, 
+.share-form textarea {
+    height: 150px;
+    resize: vertical;
 }
 
 /* Buttons */
+.share-button {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 2px solid #000;
+    text-decoration: none;
+    color: #000;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .share-button:hover {
+    background-color: #000;
+    color: #fff;
+  }
+
 .btn-back {
     display: inline-block;
     padding: 10px 20px;
@@ -163,9 +239,25 @@ input[type=submit] {
     left: 0px;
 }
 
+
 .back-button-container {
     position: absolute;
-    margin-top: 350px;
+    margin-top: auto;
+}
+
+.back-button-container-search, .back-button-container-share {
+    position: fixed;
+    bottom: 20px;
+    left: 20px; 
+}
+
+.btn-back-search, .btn-back-share {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #70554c; 
+    color: #e2dd39;
+    text-decoration: none;
+    border-radius: 5px;
 }
 
 .date {
@@ -183,11 +275,18 @@ input[type=submit] {
     margin-bottom: 20px;
 }
 
-ul {
+.centered-content {
+    text-align: center;
+    flex: 1;
+}
+
+.centered-content ul {
     list-style-type: none;
     padding: 0;
 }
 
-ul li {
+.centered-content ul li {
     margin-bottom: 10px;
 }
+
+
