@@ -2,12 +2,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel&family=Lora&display=swap');
 
 body {
-    background-color: #222629; 
+    background-color: #70554c; 
     margin:0;
     padding:0;
     font-family:helvetica, sans-serif;
     min-height: 100vh;
-    flex-direction: column; 
+    flex-direction: column;
+    display: flex;
+    color: #FFF2D7; 
+}
+
+#tags {
+    display: none;
+}
+
+.tags {
+    display: none;
 }
 
 .wrapper {
@@ -16,7 +26,7 @@ body {
 }
 
 a { 
-    color:#86c232;
+    color:#e2dd39;
     text-decoration:none; 
 }
 
@@ -36,38 +46,40 @@ h2 {
     font-weight:normal;
     font-optical-sizing: auto;
     font-weight: 400;
-    color: #61892f;
+    color: #e2dd39;
     letter-spacing: 0.03em;
     margin:30px 0 0;
 }
 
 #content { 
-    float:left;
-    width:60%;
-    padding:0 0 0 30px; 
+    flex: 1;
+    padding: 0 30px;
 }
 
 #sidebar { 
-    float:right;
     width:30%;
     padding:10px;
-    background: #474747;;
-    justify-content: space-between;
+    background: #474747;;  
     display: flex;
     flex-direction: column;
-    padding: 1rem 2rem; 
-    height:100%;
+    padding: 1rem 2rem;
+    justify-content: space-evenly;
+    color: #eef3f9; 
 }
 
 .sidebarinner {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 1rem 2rem;
+    flex-direction: column;    
+    flex: 1;
+    color: #eef3f9;
+}
+
+#sidebar h2, #sidebar p, #sidebar h3, #sidebar ul, #sidebar li {
+    color: #eef3f9;
 }
 
 p.date { 
-    color:#474b4f;
+    color:#d39c24;
     font-family: georgia, serif;
     font-size: 12px;
     font-style: italic;
@@ -86,7 +98,7 @@ p.date {
     font-weight: 400; 
     margin:40px 0; 
     font-weight:bold;
-    color: #61892f;
+    color: #d39c24;
 }
 
 /* forms */
@@ -108,7 +120,7 @@ input, textarea {
 }
 input[type=submit] {
     font-weight:bold;
-    background:#61892f;
+    background:#d39c24;
     color:#fff;
     padding:10px 20px;
     font-size:14px;
@@ -133,3 +145,49 @@ input[type=submit] {
     color:#666;
 }
 
+/* Buttons */
+.btn-back {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: #e2dd39;
+    background-color: #70554c;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+}
+
+.back-button-container {
+    position: absolute;
+    margin-top: 350px;
+}
+
+.date {
+    font-family: "Lora", serif;
+    font-size: 14px;
+    color: #ccc;
+    margin-bottom: 10px;
+}
+
+.post-body {
+    font-family: "Lora", serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #eef3f9;
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    margin-bottom: 10px;
+}
