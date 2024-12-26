@@ -12,6 +12,7 @@ from django.contrib.postgres.search import SearchVector
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.utils.text import slugify
 
 from django.contrib.postgres.search import (
     SearchVector,
@@ -35,8 +36,6 @@ def post_comment(request, post_id):
         comment.email = request.user.email
         comment.save()
         return redirect(post.get_absolute_url())
-    else:
-        form = CommentForm()
         
     return render(request, "blog/post/comment.html", {"post": post, "form": form, "comment": comment})
 
@@ -132,8 +131,14 @@ def post_create(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
+            post.slug = slugify(post.title)
+            print("Post Data:", post.title, post.slug, post.body)
             post.save()
+            messages.success(request, "Post created successfully!")
             return redirect(post.get_absolute_url())
+        else:
+            print("Form Errors:", form.errors)
+        
     else:
         form = PostForm()
     return render(request, "blog/post/crud//create.html", {"form": form})

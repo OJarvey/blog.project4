@@ -23,4 +23,4 @@ class SearchForm(forms.Form):
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'slug', 'body', 'status', 'tags']
+        fields = ['title','tags','body']
