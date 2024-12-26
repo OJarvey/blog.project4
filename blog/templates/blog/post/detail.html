@@ -46,11 +46,7 @@
     {% endfor %}
     {% include 'blog/post/includes/comment_form.html' %}
 
-    {% if user == post.author %}
-    <a href="{% url 'blog:post_update' post.id %}" class="btn">Edit Post</a>
 
-    <a href="{% url 'blog:post_delete' post.id %}" class="btn btn-danger">Delete Post</a>
-  {% endif %}
 
   </div>
     <div class="back-button-container">
