@@ -260,6 +260,37 @@ input[type=submit] {
     border-radius: 5px;
 }
 
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: #e2dd39;
+    background-color: #70554c;
+    border: 2px solid #d39c24;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-danger {
+    background-color: #cc0033; 
+    border: 2px solid #a30026;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background-color: #a30026;
+    color: #fff;
+}
+
+.btn:hover {
+    background-color: #d39c24; /* Highlight on hover */
+    color: #70554c;
+}
+
 .date {
     font-family: "Lora", serif;
     font-size: 14px;
@@ -271,18 +302,50 @@ input[type=submit] {
     font-family: "Lora", serif;
     font-size: 16px;
     line-height: 1.6;
-    color: #eef3f9;
     margin-bottom: 20px;
 }
 
 .centered-content {
     text-align: center;
     flex: 1;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.edit-form .form-group {
+    margin-bottom: 15px;
+}
+
+.edit-form .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.edit-form .form-group input,
+.edit-form .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
 }
 
 .centered-content ul {
     list-style-type: none;
     padding: 0;
+}
+
+.edit-form .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
 }
 
 .centered-content ul li {
@@ -299,3 +362,9 @@ nav li {
     margin-right: 10px; /* Add some space between items */
 }
 
+.fa-solid {
+    display: inline-block;
+    font-size: 35px;
+    color: #00abff;
+    margin-top: 40px;
+}
