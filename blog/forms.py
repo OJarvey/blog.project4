@@ -1,5 +1,6 @@
 from django import forms
 from .models import Comment
+from .models import Post
 
 class CommentForm(forms.ModelForm):
     class Meta:
@@ -19,3 +20,7 @@ class EmailPostForm(forms.Form):
 class SearchForm(forms.Form):
     query = forms.CharField()
 
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'slug', 'body', 'status', 'tags']

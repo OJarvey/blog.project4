@@ -115,6 +115,44 @@ def post_search(request):
             )
     return render(request, "blog/post/search.html", {"form": form, "query": query, "results": results})
 
+from django.contrib.auth.decorators import login_required
+from .forms import PostForm
+
+@login_required
+def post_create(request):
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return redirect(post.get_absolute_url())
+    else:
+        form = PostForm()
+    return render(request, "blog/post/crud//create.html", {"form": form})
+
+
+@login_required
+def post_update(request, post_id):
+    post = get_object_or_404(Post, id=post_id, author=request.user)
+    if request.method == "POST":
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect(post.get_absolute_url())
+    else:
+        form = PostForm(instance=post)
+    return render(request, "blog/post/crud/edit.html", {"form": form, "post": post})
+
+
+@login_required
+def post_delete(request, post_id):
+    post = get_object_or_404(Post, id=post_id, author=request.user)
+    if request.method == "POST":
+        post.delete()
+        return redirect('blog:post_list')
+    return render(request, "blog/post/crud/delete.html", {"post": post})
+
 
 class PostListView(ListView):
     queryset = Post.published.all()
