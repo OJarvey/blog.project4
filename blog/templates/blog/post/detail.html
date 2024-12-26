@@ -44,6 +44,14 @@
     {% empty %}
       
     {% endfor %}
+
+    {% if user.is_authenticated %}
+    <h2 class="center-title">Add a new comment</h2>
+    {% include 'blog/post/includes/comment_form.html' %}
+  {% else %}
+    <p>You must <a href="{% url 'account_login' %}">log in</a> or 
+      <a href="{% url 'account_signup' %}">sign up</a> to post a comment.</p>
+  {% endif %}
     {% include 'blog/post/includes/comment_form.html' %}
 
 

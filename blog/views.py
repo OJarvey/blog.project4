@@ -11,6 +11,7 @@ from django.db.models import Count
 from django.contrib.postgres.search import SearchVector
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from django.contrib.postgres.search import (
     SearchVector,
@@ -21,6 +22,10 @@ from django.contrib.postgres.search import (
 @require_POST
 def post_comment(request, post_id):
     post = get_object_or_404(Post, id=post_id, status=Post.Status.PUBLISHED)
+    if not request.user.is_authenticated:
+        messages.error(request, "You must be logged in to post a comment.")
+        return redirect('account_login')
+    
     comment = None
     form = CommentForm(request.POST)
     if form.is_valid():
