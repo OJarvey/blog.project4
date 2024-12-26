@@ -9,6 +9,8 @@ from django.core.mail import send_mail
 from taggit.models import Tag
 from django.db.models import Count
 from django.contrib.postgres.search import SearchVector
+from django.core.exceptions import PermissionDenied
+from django.contrib.auth.decorators import login_required
 
 from django.contrib.postgres.search import (
     SearchVector,
@@ -134,7 +136,12 @@ def post_create(request):
 
 @login_required
 def post_update(request, post_id):
-    post = get_object_or_404(Post, id=post_id, author=request.user)
+    post = get_object_or_404(Post, id=post_id)
+    
+    # Ensure the logged-in user is the author
+    if post.author != request.user:
+        raise PermissionDenied("You are not allowed to edit this post.")
+
     if request.method == "POST":
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
@@ -147,7 +154,11 @@ def post_update(request, post_id):
 
 @login_required
 def post_delete(request, post_id):
-    post = get_object_or_404(Post, id=post_id, author=request.user)
+    post = get_object_or_404(Post, id=post_id)
+    
+    if post.author != request.user:
+        raise PermissionDenied("You are not allowed to delete this post.")
+    
     if request.method == "POST":
         post.delete()
         return redirect('blog:post_list')
