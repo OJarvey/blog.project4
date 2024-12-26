@@ -379,3 +379,23 @@ nav li {
     color: #00abff;
     margin-top: 40px;
 }
+
+.container {
+    display: flex;
+  }
+
+  .main-content {
+   flex-grow: 1;
+   padding: 20px; /* Adjust as needed */
+   text-align: center;
+   max-width: 600px;
+   margin: 0 auto;
+   padding: 20px;
+  }
+
+  .centered-content {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  
