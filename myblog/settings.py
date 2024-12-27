@@ -27,7 +27,7 @@ SECRET_KEY = ('av_n^pmol%8=td+wlswh7ik_!irnfmefglgps$p4@r%i0q*rpl')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'blog-project4.herokuapp.com', 'blog-project4-fcfadc1fce94.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'blog-project4.herokuapp.com']
 
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
@@ -97,7 +97,9 @@ DATABASES = {
         'USER': config('DB_USER'),
         'PASSWORD': config('DB_PASSWORD'),
         'HOST': config('DB_HOST'),
-        'default': dj_database_url.config(default=os.environ.get('DATABASE_URL')),
+        'default': dj_database_url.config(
+            default=os.environ.get('DATABASE_URL')
+        ),
     }
 }
 
@@ -107,16 +109,28 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': (
+            'django.contrib.auth.password_validation.'
+            'UserAttributeSimilarityValidator'
+        ),
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': (
+            'django.contrib.auth.password_validation.'
+            'MinimumLengthValidator'
+        ),
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': (
+            'django.contrib.auth.password_validation.'
+            'CommonPasswordValidator'
+        ),
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': (
+            'django.contrib.auth.password_validation.'
+            'NumericPasswordValidator'
+        ),
     },
 ]
 

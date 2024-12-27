@@ -1,33 +1,30 @@
 from django.core.paginator import EmptyPage, Paginator, PageNotAnInteger
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.decorators.http import require_POST
-from .models import Post, Comment
-from django.views.generic import ListView
-from .forms import CommentForm
-from .forms import EmailPostForm, SearchForm
 from django.core.mail import send_mail
-from taggit.models import Tag
 from django.db.models import Count
-from django.contrib.postgres.search import SearchVector
-from django.core.exceptions import PermissionDenied
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from django.utils.text import slugify
-
 from django.contrib.postgres.search import (
     SearchVector,
     SearchQuery,
     SearchRank,
 )
+from django.core.exceptions import PermissionDenied
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.utils.text import slugify
+from .models import Post, Comment
+from .forms import CommentForm, EmailPostForm, SearchForm, PostForm
+from taggit.models import Tag
+from django.views.generic import ListView
+
 
 @require_POST
 def post_comment(request, post_id):
     post = get_object_or_404(Post, id=post_id, status=Post.Status.PUBLISHED)
     if not request.user.is_authenticated:
         messages.error(request, "You must be logged in to post a comment.")
-        return redirect('account_login')
-    
-    comment = None
+        return redirect("account_login")
+
     form = CommentForm(request.POST)
     if form.is_valid():
         comment = form.save(commit=False)
@@ -36,8 +33,13 @@ def post_comment(request, post_id):
         comment.email = request.user.email
         comment.save()
         return redirect(post.get_absolute_url())
-        
-    return render(request, "blog/post/comment.html", {"post": post, "form": form, "comment": comment})
+
+    return render(
+        request,
+        "blog/post/comment.html",
+        {"post": post, "form": form},
+    )
+
 
 def post_list(request, tag_slug=None):
     posts_list = Post.published.all()
@@ -53,7 +55,12 @@ def post_list(request, tag_slug=None):
         posts = paginator.page(1)
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
-    return render(request, "blog/post/list.html", {"posts": posts, "tag": tag})
+
+    return render(
+        request,
+        "blog/post/list.html",
+        {"posts": posts, "tag": tag},
+    )
 
 
 def post_detail(request, year, month, day, post):
@@ -66,17 +73,29 @@ def post_detail(request, year, month, day, post):
         publish__day=day,
     )
     comments = post.comments.filter(active=True)
-    
     form = CommentForm()
     post_tags_ids = post.tags.values_list("id", flat=True)
-    similar_posts = Post.published.filter(tags__in=post_tags_ids).exclude(id=post.id)
-    similar_posts = similar_posts.annotate(same_tags=Count("tags")).order_by("-same_tags", "-publish")[:4]
-    return render(request, "blog/post/detail.html", {"post": post, "comments": comments, "form": form, 'similar_posts': similar_posts})
+    similar_posts = Post.published.filter(tags__in=post_tags_ids).exclude(
+        id=post.id
+    )
+    similar_posts = similar_posts.annotate(
+        same_tags=Count("tags")
+    ).order_by("-same_tags", "-publish")[:4]
+
+    return render(
+        request,
+        "blog/post/detail.html",
+        {
+            "post": post,
+            "comments": comments,
+            "form": form,
+            "similar_posts": similar_posts,
+        },
+    )
 
 
 def post_share(request, post_id):
     post = get_object_or_404(Post, id=post_id, status=Post.Status.PUBLISHED)
-
     sent = False
     if request.method == "POST":
         form = EmailPostForm(request.POST)
@@ -84,7 +103,8 @@ def post_share(request, post_id):
             cd = form.cleaned_data
             post_url = request.build_absolute_uri(post.get_absolute_url())
             subject = (
-                f"{cd['name']} ({cd['email']}) " f"recommends you read {post.title}"
+                f"{cd['name']} ({cd['email']}) recommends you read "
+                f"{post.title}"
             )
             message = (
                 f"Read {post.title} at {post_url}\n\n"
@@ -97,10 +117,15 @@ def post_share(request, post_id):
                 recipient_list=[cd["to"]],
             )
             sent = True
-
     else:
         form = EmailPostForm()
-    return render(request, "blog/post/share.html", {"post": post, "form": form, "sent": sent})
+
+    return render(
+        request,
+        "blog/post/share.html",
+        {"post": post, "form": form, "sent": sent},
+    )
+
 
 def post_search(request):
     form = SearchForm()
@@ -110,19 +135,26 @@ def post_search(request):
         form = SearchForm(request.GET)
         if form.is_valid():
             query = form.cleaned_data["query"]
-            search_vector = SearchVector('title', weight='A') + SearchVector('body', weight='B')
+            search_vector = SearchVector(
+                "title", weight="A"
+            ) + SearchVector("body", weight="B")
             search_query = SearchQuery(query)
 
-            results =(
+            results = (
                 Post.published.annotate(
-                search=search_vector,
-                rank=SearchRank(search_vector, search_query)
-            ).filter(rank__gte=0.3).order_by('-rank')
+                    search=search_vector,
+                    rank=SearchRank(search_vector, search_query),
+                )
+                .filter(rank__gte=0.3)
+                .order_by("-rank")
             )
-    return render(request, "blog/post/search.html", {"form": form, "query": query, "results": results})
 
-from django.contrib.auth.decorators import login_required
-from .forms import PostForm
+    return render(
+        request,
+        "blog/post/search.html",
+        {"form": form, "query": query, "results": results},
+    )
+
 
 @login_required
 def post_create(request):
@@ -132,23 +164,23 @@ def post_create(request):
             post = form.save(commit=False)
             post.author = request.user
             post.slug = slugify(post.title)
-            print("Post Data:", post.title, post.slug, post.body)
             post.save()
             messages.success(request, "Post created successfully!")
             return redirect(post.get_absolute_url())
-        else:
-            print("Form Errors:", form.errors)
-        
     else:
         form = PostForm()
-    return render(request, "blog/post/crud//create.html", {"form": form})
+
+    return render(
+        request,
+        "blog/post/crud/create.html",
+        {"form": form},
+    )
 
 
 @login_required
 def post_update(request, post_id):
     post = get_object_or_404(Post, id=post_id)
-    
-    # Ensure the logged-in user is the author
+
     if post.author != request.user:
         raise PermissionDenied("You are not allowed to edit this post.")
 
@@ -159,20 +191,30 @@ def post_update(request, post_id):
             return redirect(post.get_absolute_url())
     else:
         form = PostForm(instance=post)
-    return render(request, "blog/post/crud/edit.html", {"form": form, "post": post})
+
+    return render(
+        request,
+        "blog/post/crud/edit.html",
+        {"form": form, "post": post},
+    )
 
 
 @login_required
 def post_delete(request, post_id):
     post = get_object_or_404(Post, id=post_id)
-    
+
     if post.author != request.user:
         raise PermissionDenied("You are not allowed to delete this post.")
-    
+
     if request.method == "POST":
         post.delete()
-        return redirect('blog:post_list')
-    return render(request, "blog/post/crud/delete.html", {"post": post})
+        return redirect("blog:post_list")
+
+    return render(
+        request,
+        "blog/post/crud/delete.html",
+        {"post": post},
+    )
 
 
 class PostListView(ListView):

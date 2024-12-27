@@ -19,14 +19,24 @@ from django.contrib.sitemaps.views import sitemap
 from django.urls import include, path
 from django.views.generic import RedirectView
 from blog.sitemaps import PostSitemap
+
 sitemaps = {
     "posts": PostSitemap,
 }
 
 urlpatterns = [
-    path('', RedirectView.as_view(url='/blog/', permanent=False), name='root'),
+    path(
+        '',
+        RedirectView.as_view(url='/blog/', permanent=False),
+        name='root'
+    ),
     path("accounts/", include("allauth.urls")),
-    path('admin/', admin_site.urls),
-    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
-    path('blog/', include('blog.urls', namespace='blog')),
+    path("admin/", admin_site.urls),
+    path(
+        "sitemap.xml",
+        sitemap,
+        {"sitemaps": sitemaps},
+        name="django.contrib.sitemaps.views.sitemap",
+    ),
+    path("blog/", include(("blog.urls", "blog"), namespace="blog")),
 ]
