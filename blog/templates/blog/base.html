@@ -7,8 +7,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
       {% block title %}
 
@@ -19,10 +19,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet" />
-    
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
     <!-- Favicon -->
     <link rel="icon" href="{% static 'favicon/icons8-blog-flat-gradient-16.png' %}" type="image/png" />
@@ -35,7 +34,6 @@
 
   <body>
     <div class="wrapper">
-      
       <!-- Main Content -->
       <div id="content">
         {% block content %}
@@ -46,34 +44,32 @@
       <!-- Sidebar -->
       <div id="sidebar">
         <div class="centered-content">
-
           <!-- Navigation -->
           <nav>
             <ul>
               {% if user.is_authenticated %}
-              <li class="nav-item">
-                <span class="nav-link">Welcome Back, {{ user.username }}</span>
-            </li>
-              <li class="nav-item">
-                <a class="nav-link {% if request.path == logout_url %}active{% endif %}" aria-current="page" href="{% url 'account_logout' %}">Logout</a>
-              </li>
+                <li class="nav-item">
+                  <span class="nav-link">Welcome Back, {{ user.username }}</span>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link {% if request.path == logout_url %}active{% endif %}" aria-current="page" href="{% url 'account_logout' %}">Logout</a>
+                </li>
               {% else %}
-              <li class="nav-item">
-                <a class="nav-link {% if request.path == signup_url %}active{% endif %}" aria-current="page" href="{% url 'account_signup' %}">Register</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link {% if request.path == login_url %}active{% endif %}" aria-current="page" href="{% url 'account_login' %}">Login</a>
-              </li>
+                <li class="nav-item">
+                  <a class="nav-link {% if request.path == signup_url %}active{% endif %}" aria-current="page" href="{% url 'account_signup' %}">Register</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link {% if request.path == login_url %}active{% endif %}" aria-current="page" href="{% url 'account_login' %}">Login</a>
+                </li>
               {% endif %}
             </ul>
           </nav>
 
-          <a href="{% url 'blog:post_list' %}" class="home-icon">
-            <i class="fa-solid fa-home"></i>
+          <a href="{% url 'blog:post_list' %}" class="home-icon"><i class="fa-solid fa-home"></i></a>
 
           <h2>What's New?</h2>
           <p>
-            The Soul Blog was created for users to free their thoughts. {% total_posts %} posted have been made so far.
+            The Soul Blog was created for users to free their thoughts.{% total_posts %} post have been made so far.
           </p>
           <h3>Latest Posts</h3>
           {% show_latest_posts 4 %}
@@ -87,10 +83,8 @@
             {% endfor %}
           </ul>
           <div class="create-post-link">
-            <a href="{% url 'blog:post_create' %}" title="Create a New Post">
-              <i class="fa-solid fa-arrow-up-right-from-square"></i>
-            </a>
-        </div>
+            <a href="{% url 'blog:post_create' %}" title="Create a New Post"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+          </div>
         </div>
       </div>
     </div>

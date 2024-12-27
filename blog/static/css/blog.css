@@ -53,7 +53,6 @@ a {
 
 h1 { 
     font-family: "Cinzel", serif;
-    font-optical-sizing: auto;
     font-weight: 400;
     font-weight:normal;
     color: #eef3f9;
@@ -65,7 +64,6 @@ h1 {
 h2 {
     font-family: "Cinzel", serif;
     font-weight:normal;
-    font-optical-sizing: auto;
     font-weight: 400;
     color: #e2dd39;
     letter-spacing: 0.03em;
@@ -104,7 +102,6 @@ p.date {
     font-family: georgia, serif;
     font-size: 12px;
     font-style: italic;
-    font-optical-sizing: auto; 
 }
 
 .left {
@@ -115,7 +112,6 @@ p.date {
 /* pagination */
 .pagination {
     font-family: "Cinzel", serif;
-    font-optical-sizing: auto;
     font-weight: 400; 
     margin:40px 0; 
     font-weight:bold;
