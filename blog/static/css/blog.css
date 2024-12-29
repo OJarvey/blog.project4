@@ -159,6 +159,13 @@ input[type=submit] {
     text-transform: uppercase; 
 }
 
+input[type=submit]:hover {
+    background: #e2dd39; /* Hover background color */
+    color: #70554c; /* Hover text color */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+}
+
 .errorlist { 
     color: #cc0033;
     float: left;
@@ -308,6 +315,14 @@ nav li {
     font-size: 35px;
     color: #00abff;
     margin-top: 40px;
+}
+
+.fa-solid:hover {
+    display: inline-block;
+    font-size: 35px;
+    color: #00abff;
+    transform: scale(1.05); /* Slightly enlarge on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
 }
 
 /* Containers */
