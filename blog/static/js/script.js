@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     // Select the textarea and submit button
-    const commentBox = document.querySelector(".form-group textarea");
-    const submitButton = document.querySelector("#comment-submit-button");
+    var commentBox = document.querySelector(".form-group textarea");
+    var submitButton = document.querySelector("#comment-submit-button");
 
     if (commentBox && submitButton) {
         // Listen for input events on the textarea
