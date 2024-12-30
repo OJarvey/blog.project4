@@ -562,6 +562,3 @@ Use the git clone command to download the repository to your local machine.
 
 ![Comment Section](readme_img/comment-section.png)
 
-### Agile
-
-![Agile](readme_img/agile.png)
