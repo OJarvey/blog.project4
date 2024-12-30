@@ -561,4 +561,3 @@ Use the git clone command to download the repository to your local machine.
 ### Comment Section
 
 ![Comment Section](readme_img/comment-section.png)
-
