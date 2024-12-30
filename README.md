@@ -297,7 +297,7 @@ python manage.py collectstatic
 Ran collectstatic command:
 python manage.py collectstatic
 
-500 Internal Server Error on Post Creation
+### 500 Internal Server Error on Post Creation
 
 Description: A 500 error occurred when users attempted to create a post.
 
@@ -328,7 +328,7 @@ Created a GIN index on the title and content fields:
 
 CREATE INDEX post_search_idx ON Posts USING GIN (title gin_trgm_ops, content gin_trgm_ops);
 
-User Not Redirected After Login
+### User Not Redirected After Login
 
 Description: After logging in, users were not redirected to the home page but remained on the login page.
 
@@ -360,7 +360,7 @@ Applied the migration:
 
 python manage.py migrate
 
-Validation Not Blocking Empty Comments
+### Validation Not Blocking Empty Comments
 
 Description: Users were able to submit empty comments.
 
@@ -373,7 +373,7 @@ Added validation in the form:
 if not content.strip():
     raise ValidationError("Comment cannot be empty.")
 
-Admin Page Crashing for Large Datasets.
+### Admin Page Crashing for Large Datasets
 
 Description: The admin panel became unresponsive when handling a large number of posts and users.
 
@@ -385,7 +385,7 @@ Enabled pagination in the admin panel:
 
 list_per_page = 50
 
-- CSRF Token Missing Error
+### CSRF Token Missing Error
 
 Description: Forms failed to submit due to a CSRF token missing error.
 
@@ -402,7 +402,7 @@ Added {% csrf_token %} to all form templates:
 </form>
 ```
 
-Image Upload Not Working
+### Image Upload Not Working
 
 Description: Uploaded images were not displaying on the blog posts.
 
@@ -421,7 +421,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-"Post Not Found" Error on Valid Posts
+### "Post Not Found" Error on Valid Posts
 
 Description: Clicking on certain blog post links resulted in a "Post Not Found" error.
 
@@ -435,7 +435,7 @@ from django.utils.text import slugify
 post.slug = slugify(post.title)
 post.save()
 
-Fix TypeError in post_detail View
+### Fix TypeError in post_detail View
 
 Description: Resolved a TypeError in the post_detail view where the id field was incorrectly referenced in the get_object_or_404 call.
 
