@@ -1,0 +1,16 @@
+{% load static %}
+
+<form action="{% url 'blog:post_comment' post.id %}" method="post" class="comment-form">
+    <div class="form-group">
+        {{ form.body }}
+    </div>
+    {% csrf_token %}
+    <p><input type="submit" id="comment-submit-button" value="Add comment"></p>
+    {% if user == post.author %}
+    <div class="button-group">
+    <a href="{% url 'blog:post_update' post.id %}" class="btn">Edit Post</a>
+    <a href="{% url 'blog:post_delete' post.id %}" class="btn btn-danger">Delete Post</a>
+  </div>
+  {% endif %}
+</form>
+<script src="{% static 'js/script.js' %}"></script>
