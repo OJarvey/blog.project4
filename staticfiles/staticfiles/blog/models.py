@@ -10,10 +10,26 @@ class PublishedManager(models.Manager):
         return super().get_queryset().filter(status=Post.Status.PUBLISHED)
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=100, unique=True)
+    description = models.TextField(blank=True)
+
+    class Meta:
+        verbose_name_plural = "categories"
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse("blog:post_list_by_category", args=[self.slug])
+
+
 class Post(models.Model):
     objects = models.Manager()
     published = PublishedManager()
-    tags = TaggableManager()
+    tags = TaggableManager(blank=True)
 
     class Status(models.TextChoices):
         DRAFT = "DF", "Draft"
@@ -25,6 +41,9 @@ class Post(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="blog_posts",
+    )
+    category = models.ForeignKey(
+        Category, on_delete=models.SET_NULL, null=True, related_name="posts"
     )
     body = models.TextField()
     publish = models.DateTimeField(default=timezone.now)
@@ -58,11 +77,7 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    post = models.ForeignKey(
-        Post,
-        on_delete=models.CASCADE,
-        related_name="comments",
-    )
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
     name = models.CharField(max_length=80)
     email = models.EmailField()
     body = models.TextField()
