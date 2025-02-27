@@ -4,62 +4,60 @@
   {{ post.title }}
 {% endblock %}
 {% block content %}
-<div class="centered-content">
-  <h1><a href="{% url 'blog:post_list' %}">Comments</a></h1>
+  <div class="centered-content">
+    <h1><a href="{% url 'blog:post_list' %}">Comments</a></h1>
 
-  <h2>{{ post.title }}</h2>
+    <h2>{{ post.title }}</h2>
 
-  <div class="tags">
-    {% for tag in post.tags.all %}
-      <a href="{% url 'blog:post_list_by_tag' tag.slug %}">{{ tag.name }}</a>
-    {% empty %}
-      No tags for this post.
-    {% endfor %}
-  </div>
+    <div class="tags">
+      {% for tag in post.tags.all %}
+        <a href="{% url 'blog:post_list_by_tag' tag.slug %}">{{ tag.name }}</a>
+      {% empty %}
+        No tags for this post.
+      {% endfor %}
+    </div>
 
-  <p class="date">Published {{ post.publish }} by {{ post.author }}</p>
-  {{ post.body|markdown }}
-  <p>
-    <a href="{% url 'blog:post_share' post.id %}" class="share-button">Share this post</a>
-  </p>
-  <h2>Similar posts</h2>
-  {% for post in similar_posts %}
+    <p class="date">Published {{ post.publish }} by {{ post.author }}</p>
+    {{ post.body|safe }}
+
     <p>
-      <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+      <a href="{% url 'blog:post_share' post.id %}" class="share-button">Share this post</a>
     </p>
-  {% empty %}
-    No similar posts.
-  {% endfor %}
-  {% with total_comments=comments.count %}
-    <h2>{{ total_comments }} comment{{ total_comments|pluralize }}</h2>
-  {% endwith %}
-
-  <div class="comments-section">
-    {% for comment in comments %}
-      <div class="comment">
-        <p class="info">Comment {{ forloop.counter }} by {{ comment.name }}
-          {{ comment.created }}</p>
-        {{ comment.body|linebreaks }}
-      </div>
+    <h2>Similar posts</h2>
+    {% for post in similar_posts %}
+      <p>
+        <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+      </p>
     {% empty %}
-      
+      No similar posts.
     {% endfor %}
+    {% with total_comments=comments.count %}
+      <h2>{{ total_comments }} comment{{ total_comments|pluralize }}</h2>
+    {% endwith %}
 
-    {% if user.is_authenticated %}
-    <h2 class="center-title">Add a new comment</h2>
-    {% include 'blog/post/includes/comment_form.html' %}
-  {% else %}
-    <p>You must <a href="{% url 'account_login' %}">log in</a> or 
-      <a href="{% url 'account_signup' %}">sign up</a> to post a comment.</p>
-  {% endif %}
+    <div class="comments-section">
+      {% for comment in comments %}
+        <div class="comment">
+          <p class="info">Comment {{ forloop.counter }} by {{ comment.name }}
+            {{ comment.created }}</p>
+          {{ comment.body|linebreaks }}
+        </div>
+      {% empty %}
 
+      {% endfor %}
 
-
-
-  </div>
+      {% if user.is_authenticated %}
+        <h2 class="center-title">Add a new comment</h2>
+        {% include 'blog/post/includes/comment_form.html' %}
+      {% else %}
+        <p>
+          You must <a href="{% url 'account_login' %}">log in</a> or
+          <a href="{% url 'account_signup' %}">sign up</a> to post a comment.
+        </p>
+      {% endif %}
+    </div>
     <div class="back-button-container">
       <a href="javascript:history.back()" class="btn-back">Back</a>
     </div>
   </div>
-
 {% endblock %}

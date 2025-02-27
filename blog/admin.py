@@ -19,10 +19,9 @@ class PostAdmin(admin.ModelAdmin):
     date_hierarchy = "publish"
     ordering = ("status", "publish")
     show_facets = admin.ShowFacets.ALWAYS
-    # Removed filter_horizontal since tags uses TaggableManager
     fieldsets = (
         (None, {"fields": ("title", "slug", "author", "category", "tags")}),
-        ("Content", {"fields": ("body", "featured_image")}),
+        ("Content", {"fields": ("body",)}),
         ("Publication", {"fields": ("status", "publish")}),
     )
 

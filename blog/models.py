@@ -46,9 +46,6 @@ class Post(models.Model):
         Category, on_delete=models.SET_NULL, null=True, related_name="posts"
     )
     body = models.TextField()
-    featured_image = models.ImageField(
-        upload_to="featured_images/%Y/%m/%d/", blank=True, null=True
-    )
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -60,7 +57,9 @@ class Post(models.Model):
 
     class Meta:
         ordering = ["-publish"]
-        indexes = [models.Index(fields=["-publish"])]
+        indexes = [
+            models.Index(fields=["-publish"]),
+        ]
 
     def __str__(self):
         return self.title
@@ -68,14 +67,17 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse(
             "blog:post_detail",
-            args=[self.publish.year, self.publish.month, self.publish.day, self.slug],
+            args=[
+                self.publish.year,
+                self.publish.month,
+                self.publish.day,
+                self.slug,
+            ],
         )
 
 
 class Comment(models.Model):
-    post = models.ForeignKey(
-        Post, on_delete=models.CASCADE, related_name="comments"
-    )
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
     name = models.CharField(max_length=80)
     email = models.EmailField()
     body = models.TextField()
@@ -85,8 +87,9 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ["created"]
-        indexes = [models.Index(fields=["-created"])]
+        indexes = [
+            models.Index(fields=["-created"]),
+        ]
 
     def __str__(self):
         return f"Comment by {self.name} on {self.post}"
-    

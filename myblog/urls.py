@@ -14,22 +14,21 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib.admin import site as admin_site
 from django.contrib.sitemaps.views import sitemap
 from django.urls import include, path
 from django.views.generic import RedirectView
 from blog.sitemaps import PostSitemap
+from django.conf import settings
+from django.conf.urls.static import static
 
 sitemaps = {
     "posts": PostSitemap,
 }
 
 urlpatterns = [
-    path(
-        '',
-        RedirectView.as_view(url='/blog/', permanent=False),
-        name='root'
-    ),
+    path("", RedirectView.as_view(url="/blog/", permanent=False), name="root"),
     path("accounts/", include("allauth.urls")),
     path("admin/", admin_site.urls),
     path(
@@ -39,4 +38,8 @@ urlpatterns = [
         name="django.contrib.sitemaps.views.sitemap",
     ),
     path("blog/", include(("blog.urls", "blog"), namespace="blog")),
+    path('summernote/', include('django_summernote.urls')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

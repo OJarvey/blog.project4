@@ -156,13 +156,13 @@ def post_search(request):
 def post_create(request):
     """Create a new post."""
     if request.method == "POST":
-        form = PostForm(request.POST, request.FILES)
+        form = PostForm(request.POST)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
             post.slug = slugify(post.title)
             post.save()
-            form.save_m2m()  # Save tags
+            form.save_m2m()
             messages.success(request, "Post created successfully!")
             return redirect(post.get_absolute_url())
     else:
@@ -177,7 +177,7 @@ def post_update(request, post_id):
     if post.author != request.user:
         raise PermissionDenied("You are not allowed to edit this post.")
     if request.method == "POST":
-        form = PostForm(request.POST, request.FILES, instance=post)
+        form = PostForm(request.POST, instance=post)
         if form.is_valid():
             post = form.save(commit=False)
             post.slug = slugify(post.title)

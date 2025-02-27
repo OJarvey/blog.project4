@@ -12,7 +12,7 @@
       <i class="fas fa-search"></i>
     </a>
   </div>
-  <!-- Replace tag filter search bar with dropdown -->
+
   <form method="get" class="filter-form">
     <select name="filter" onchange="this.form.submit()" class="form-control">
       <option value="" {% if not request.GET.filter %}selected{% endif %}>Select Filter</option>
@@ -42,7 +42,7 @@
       Published {{ post.publish }} by {{ post.author }}
     </p>
     <div class="post-body">
-      {{ post.body|markdown|truncatewords_html:30 }}
+      {{ post.body|safe|truncatewords_html:30 }}
     </div>
   {% endfor %}
   {% include "pagination.html" with page=posts %}
