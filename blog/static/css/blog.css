@@ -226,6 +226,28 @@ input[type=submit]:hover {
     resize: vertical;
 }
 
+.filter-form {
+    margin: 20px auto;
+    max-width: 300px;
+    text-align: center;
+}
+
+.filter-form select {
+    width: 100%;
+    padding: 8px;
+    background: #474b4f;
+    border: none;
+    color: #eef3f9;
+    border-radius: 4px;
+    font-family: "Lora", serif;
+    font-size: 16px;
+}
+
+.filter-form select option {
+    background: #474747;
+    color: #eef3f9;
+}
+
 /* Buttons */
 .share-button {
     display: inline-block;

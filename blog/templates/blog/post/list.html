@@ -7,12 +7,21 @@
 {% block content %}
 <div class="centered-content">
   <div class="header">
-  <h1 class="center-title"> <a href="{% url 'blog:post_list' %}" class="home-button">Blog Soul</h1>
+    <h1 class="center-title"><a href="{% url 'blog:post_list' %}" class="home-button">Blog Soul</a></h1>
     <a href="{% url 'blog:post_search' %}" class="search-icon">
       <i class="fas fa-search"></i>
     </a>
   </div>
-    {% if tag%}
+  <!-- Replace tag filter search bar with dropdown -->
+  <form method="get" class="filter-form">
+    <select name="filter" onchange="this.form.submit()" class="form-control">
+      <option value="" {% if not request.GET.filter %}selected{% endif %}>Select Filter</option>
+      <option value="name" {% if request.GET.filter == "name" %}selected{% endif %}>Name (A-Z)</option>
+      <option value="date" {% if request.GET.filter == "date" %}selected{% endif %}>Old to New</option>
+      <option value="trending" {% if request.GET.filter == "trending" %}selected{% endif %}>Trending</option>
+    </select>
+  </form>
+  {% if tag %}
     <h2>Posts tagged with "{{ tag.name }}"</h2>
   {% endif %}
   {% for post in posts %}
@@ -21,19 +30,19 @@
         {{ post.title }}
       </a>
     </h2>
-
     <div class="tags">
-    {% for tag in post.tags.all %}
-      <a href="{% url "blog:post_list_by_tag" tag.slug %}">
-        {{ tag.name }}
-      </a>
-      {% if not forloop.last %}, {% endif %}
-    {% endfor %}
+      {% for tag in post.tags.all %}
+        <a href="{% url "blog:post_list_by_tag" tag.slug %}">
+          {{ tag.name }}
+        </a>
+        {% if not forloop.last %}, {% endif %}
+      {% endfor %}
     </div>
     <p class="date">
-      Published {{ post.publish }} by {{ post.author }}</p>
-      <div class="post-body">
-    {{ post.body|markdown|truncatewords_html:30 }}
+      Published {{ post.publish }} by {{ post.author }}
+    </p>
+    <div class="post-body">
+      {{ post.body|markdown|truncatewords_html:30 }}
     </div>
   {% endfor %}
   {% include "pagination.html" with page=posts %}
