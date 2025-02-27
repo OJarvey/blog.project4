@@ -1,11 +1,8 @@
-
 *.sqlite3
 .env
 mysite_data.json
 *.json
-
 *.log
-
 # OS generated files
 .DS_Store
 Thumbs.db
