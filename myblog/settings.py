@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "django.contrib.sitemaps",
     "django.contrib.postgres",
     "taggit",
+    "cloudinary_storage",
     "cloudinary",
     "blog.apps.BlogConfig",
 ]
@@ -143,19 +144,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
-
-STATIC_URL = "static/"
-STATICFILES_DIRS = [BASE_DIR / "blog/static"]
-STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
-
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
-
 # Summernote configuration
 SUMMERNOTE_CONFIG = {
     "summernote": {
@@ -169,37 +157,34 @@ SUMMERNOTE_CONFIG = {
             ["view", ["fullscreen", "codeview"]],
         ],
     },
-    "attachment_upload_to": "summernote/%Y/%m/%d/",
+    "disable_attachment": True,
 }
-
-USE_AWS = config("USE_AWS", default=False, cast=bool)
-
-if USE_AWS:
-    AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
-    AWS_S3_REGION_NAME = "eu-north-1"
-    AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
-    AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
-    AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
-    AWS_S3_FILE_OVERWRITE = False
-    AWS_S3_SIGNATURE_VERSION = "s3v4"
 
 USE_CLOUDINARY = config("USE_CLOUDINARY", default=False, cast=bool)
 
 if USE_CLOUDINARY:
+    # Configure Cloudinary
     cloudinary.config(
         cloud_name=config("CLOUDINARY_CLOUD_NAME"),
         api_key=config("CLOUDINARY_API_KEY"),
         api_secret=config("CLOUDINARY_API_SECRET"),
     )
+
+    # Cloudinary storage for media & static files
     DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
     STATICFILES_STORAGE = "cloudinary_storage.storage.StaticCloudinaryStorage"
-    CLOUDINARY_STORAGE = {
-        "STATICFILES_MANIFEST_ROOT": BASE_DIR / "manifest",
-        "STATIC_TAG": "static",
-        "MEDIA_TAG": "media",
-    }
+
     STATIC_URL = f"https://res.cloudinary.com/{config('CLOUDINARY_CLOUD_NAME')}/static/"
     MEDIA_URL = f"https://res.cloudinary.com/{config('CLOUDINARY_CLOUD_NAME')}/media/"
+
+else:
+    # Default settings for local development
+    STATIC_URL = "/static/"
+    STATICFILES_DIRS = [BASE_DIR / "blog/static"]
+    STATIC_ROOT = BASE_DIR / "staticfiles"
+    MEDIA_URL = "/media/"
+    MEDIA_ROOT = BASE_DIR / "media"
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
 # Default primary key field type
