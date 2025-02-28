@@ -3,6 +3,8 @@ import os
 from decouple import config
 import dj_database_url
 import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "myblog.settings")
@@ -173,24 +175,32 @@ SUMMERNOTE_CONFIG = {
 }
 
 # Cloudinary Configuration
+CLOUDINARY_CLOUD_NAME = config("CLOUDINARY_CLOUD_NAME")
+CLOUDINARY_API_KEY = config("CLOUDINARY_API_KEY")
+CLOUDINARY_API_SECRET = config("CLOUDINARY_API_SECRET")
+
+cloudinary.config(
+    cloud_name=CLOUDINARY_CLOUD_NAME,
+    api_key=CLOUDINARY_API_KEY,
+    api_secret=CLOUDINARY_API_SECRET,
+)
+
 USE_CLOUDINARY = config("USE_CLOUDINARY", default=False, cast=bool)
 
-if USE_CLOUDINARY and not DEBUG:
-    cloudinary.config(
-        cloud_name=config("CLOUDINARY_CLOUD_NAME"),
-        api_key=config("CLOUDINARY_API_KEY"),
-        api_secret=config("CLOUDINARY_API_SECRET"),
-    )
-    
-    DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
-    STATICFILES_STORAGE = "cloudinary_storage.storage.StaticCloudinaryStorage"
+if USE_CLOUDINARY:
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
     CLOUDINARY_STORAGE = {
-        "STATICFILES_MANIFEST_ROOT": BASE_DIR / "staticfiles/manifest",
-        "STATICFILES_PREFIX": "static",
-        "MEDIAFILES_PREFIX": "media",
+        "CLOUD_NAME": CLOUDINARY_CLOUD_NAME,
+        "API_KEY": CLOUDINARY_API_KEY,
+        "API_SECRET": CLOUDINARY_API_SECRET,
     }
-    STATIC_URL = f"https://res.cloudinary.com/{config('CLOUDINARY_CLOUD_NAME')}/raw/upload/v1/static/"
-    MEDIA_URL = f"https://res.cloudinary.com/{config('CLOUDINARY_CLOUD_NAME')}/image/upload/v1/media/"
+
+    MEDIA_URL = (
+        f"https://res.cloudinary.com/{CLOUDINARY_CLOUD_NAME}/image/upload/v1/media/"
+    )
+else:
+    MEDIA_ROOT = BASE_DIR / "media"
+    MEDIA_URL = "/media/"
 
 
 # Default primary key field type
