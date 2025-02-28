@@ -144,6 +144,18 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/5.0/howto/static-files/
+
+STATIC_URL = "static/"
+STATICFILES_DIRS = [BASE_DIR / "blog/static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+# Media Files
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
+
 # Summernote configuration
 SUMMERNOTE_CONFIG = {
     "summernote": {
@@ -160,31 +172,25 @@ SUMMERNOTE_CONFIG = {
     "disable_attachment": True,
 }
 
+# Cloudinary Configuration
 USE_CLOUDINARY = config("USE_CLOUDINARY", default=False, cast=bool)
 
-if USE_CLOUDINARY:
-    # Configure Cloudinary
+if USE_CLOUDINARY and not DEBUG:
     cloudinary.config(
         cloud_name=config("CLOUDINARY_CLOUD_NAME"),
         api_key=config("CLOUDINARY_API_KEY"),
         api_secret=config("CLOUDINARY_API_SECRET"),
     )
-
-    # Cloudinary storage for media & static files
+    
     DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
     STATICFILES_STORAGE = "cloudinary_storage.storage.StaticCloudinaryStorage"
-
-    STATIC_URL = f"https://res.cloudinary.com/{config('CLOUDINARY_CLOUD_NAME')}/static/"
-    MEDIA_URL = f"https://res.cloudinary.com/{config('CLOUDINARY_CLOUD_NAME')}/media/"
-
-else:
-    # Default settings for local development
-    STATIC_URL = "/static/"
-    STATICFILES_DIRS = [BASE_DIR / "blog/static"]
-    STATIC_ROOT = BASE_DIR / "staticfiles"
-    MEDIA_URL = "/media/"
-    MEDIA_ROOT = BASE_DIR / "media"
-    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+    CLOUDINARY_STORAGE = {
+        "STATICFILES_MANIFEST_ROOT": BASE_DIR / "staticfiles/manifest",
+        "STATICFILES_PREFIX": "static",
+        "MEDIAFILES_PREFIX": "media",
+    }
+    STATIC_URL = f"https://res.cloudinary.com/{config('CLOUDINARY_CLOUD_NAME')}/raw/upload/v1/static/"
+    MEDIA_URL = f"https://res.cloudinary.com/{config('CLOUDINARY_CLOUD_NAME')}/image/upload/v1/media/"
 
 
 # Default primary key field type

@@ -1,8 +1,46 @@
+# Database files
 *.sqlite3
+*.db
+
+# Environment files
 .env
 mysite_data.json
 *.json
+
+
+# Log files
 *.log
-# OS generated files
+
+# OS-generated files
 .DS_Store
 Thumbs.db
+
+# Python bytecode and caches
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+blog_env/
+env/
+venv/
+*.venv/
+
+
+# Dependency directories (should be installed via requirements.txt)
+*.egg-info/
+dist/
+build/
+
+# IDE files
+*.idea/
+*.vscode/
+*.sublime-*
+
+# Miscellaneous
+*.bak
+*.swp
+*.tmp
+*.zip
+*.tar.gz
