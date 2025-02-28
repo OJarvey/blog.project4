@@ -2,6 +2,7 @@ from pathlib import Path
 import os
 from decouple import config
 import dj_database_url
+import cloudinary
 
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "myblog.settings")
@@ -54,7 +55,7 @@ INSTALLED_APPS = [
     "django.contrib.sitemaps",
     "django.contrib.postgres",
     "taggit",
-    "storages",
+    "cloudinary",
     "blog.apps.BlogConfig",
 ]
 
@@ -182,26 +183,23 @@ if USE_AWS:
     AWS_S3_FILE_OVERWRITE = False
     AWS_S3_SIGNATURE_VERSION = "s3v4"
 
-if USE_AWS:
-    # AWS Settings
-    AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
-    AWS_S3_REGION_NAME = "eu-north-1"
-    AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
-    AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
-    AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
-    AWS_S3_FILE_OVERWRITE = False
-    AWS_DEFAULT_ACL = "public-read"
-    AWS_S3_SIGNATURE_VERSION = "s3v4"
+USE_CLOUDINARY = config("USE_CLOUDINARY", default=False, cast=bool)
 
-    # Static Files on S3
-    STATICFILES_STORAGE = "custom_storages.StaticStorage"
-    STATICFILES_LOCATION = "static"
-    STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/"
-
-    # Media Files on S3
-    DEFAULT_FILE_STORAGE = "custom_storages.MediaStorage"
-    MEDIAFILES_LOCATION = "media"
-    MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/"
+if USE_CLOUDINARY:
+    cloudinary.config(
+        cloud_name=config("CLOUDINARY_CLOUD_NAME"),
+        api_key=config("CLOUDINARY_API_KEY"),
+        api_secret=config("CLOUDINARY_API_SECRET"),
+    )
+    DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+    STATICFILES_STORAGE = "cloudinary_storage.storage.StaticCloudinaryStorage"
+    CLOUDINARY_STORAGE = {
+        "STATICFILES_MANIFEST_ROOT": BASE_DIR / "manifest",
+        "STATIC_TAG": "static",
+        "MEDIA_TAG": "media",
+    }
+    STATIC_URL = f"https://res.cloudinary.com/{config('CLOUDINARY_CLOUD_NAME')}/static/"
+    MEDIA_URL = f"https://res.cloudinary.com/{config('CLOUDINARY_CLOUD_NAME')}/media/"
 
 
 # Default primary key field type
