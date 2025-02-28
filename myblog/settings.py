@@ -169,7 +169,7 @@ SUMMERNOTE_CONFIG = {
             ["view", ["fullscreen", "codeview"]],
         ],
     },
-    "disable_attachment": True,
+    "attachment_upload_to": "summernote/%Y/%m/%d/",
 }
 
 # Cloudinary Configuration
