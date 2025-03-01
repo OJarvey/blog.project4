@@ -1,0 +1,642 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel&family=Lora&display=swap');
+
+/* General Styles */
+body {
+    background-color: #70554c; 
+    margin: 0;
+    padding: 0;
+    font-family: helvetica, sans-serif;
+    min-height: 100vh;
+    flex-direction: column;
+    display: flex;
+    color: #FFF2D7; 
+}
+
+a { 
+    color: #e2dd39;
+    text-decoration: none; 
+}
+
+h1, h2 {
+    font-family: "Cinzel", serif;
+    font-weight: 400;
+    letter-spacing: 0.03em;
+}
+
+h1 {
+    color: #eef3f9;
+    border-bottom: 1px solid #bbb;
+    padding: 0 0 10px 0;
+}
+
+h2 {
+    color: #e2dd39;
+    margin: 30px 0 0;
+}
+
+p.date { 
+    color: #d39c24;
+    font-family: georgia, serif;
+    font-size: 12px;
+    font-style: italic;
+}
+
+.date {
+    font-family: "Lora", serif;
+    font-size: 14px;
+    color: #ccc;
+    margin-bottom: 10px;
+}
+
+.post-body {
+    font-family: "Lora", serif;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* Header */
+.header {
+    position: relative;
+    justify-content: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.center-title {
+    text-align: center;
+    flex: 1;
+}
+
+.search-icon {
+    font-size: 1.5em;
+    color: #d5cfcf;
+    text-decoration: none;
+    margin-left: auto;
+}
+
+/* Sidebar */
+#sidebar { 
+    width: 30%;
+    padding: 10px;
+    background: #474747;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 2rem;
+    justify-content: space-evenly;
+    color: #eef3f9; 
+}
+
+.sidebarinner {
+    display: flex;
+    flex-direction: column;    
+    flex: 1;
+    color: #eef3f9;
+}
+
+#sidebar h2, #sidebar p, #sidebar h3, #sidebar ul, #sidebar li {
+    color: #eef3f9;
+}
+
+/* Wrapper */
+.wrapper {
+    display: flex;
+    flex: 1;
+}
+
+/* Content */
+#content { 
+    flex: 1;
+    padding: 0 30px;
+}
+
+.centered-content {
+    text-align: center;
+    flex: 1;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.centered-content ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.centered-content ul li {
+    margin-bottom: 10px;
+}
+
+/* Forms */
+label { 
+    float: left;
+    clear: both;
+    color: #eef3f9;
+    margin-bottom: 4px; 
+}
+
+input, textarea { 
+    clear: both;
+    float: left;
+    margin: 0 0 10px;
+    background: #474b4f;
+    border: 0;
+    padding: 6px 10px;
+    font-size: 12px;
+    color: #eef3f9;
+}
+
+input[type=submit] {
+    font-weight: bold;
+    background: #d39c24;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 14px;
+    text-transform: uppercase; 
+}
+
+input[type=submit]:hover {
+    background: #e2dd39; /* Hover background color */
+    color: #70554c; /* Hover text color */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+}
+
+.errorlist { 
+    color: #cc0033;
+    float: left;
+    clear: both;
+    padding-left: 10px; 
+}
+
+/* Comments */
+.comment {
+    padding: 10px;
+    border-bottom: 1px solid #474b4f;
+}
+
+.comment .info {
+    font-weight: bold;
+    font-size: 12px;
+    color: #d39c24;
+}
+
+.comments-section {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.comment-form, .share-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.comment-form .form-group, .share-form .form-group {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 15px;
+}
+
+.comment-form label, .share-form label {
+    display: block;
+    margin-bottom: 5px;
+    color: #eef3f9;
+}
+
+.comment-form input[type="text"],
+.comment-form textarea, 
+.share-form input[type="text"], 
+.share-form textarea  {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #474b4f;
+    color: #eef3f9;
+}
+
+.comment-form textarea, 
+.share-form textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+.filter-form {
+    margin: 20px auto;
+    max-width: 300px;
+    text-align: center;
+}
+
+.filter-form select {
+    width: 100%;
+    padding: 8px;
+    background: #474b4f;
+    border: none;
+    color: #eef3f9;
+    border-radius: 4px;
+    font-family: "Lora", serif;
+    font-size: 16px;
+}
+
+.filter-form select option {
+    background: #474747;
+    color: #eef3f9;
+}
+
+/* Buttons */
+.share-button {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 2px solid #000;
+    text-decoration: none;
+    color: #000;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.share-button:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+.btn-back {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: #e2dd39;
+    background-color: #70554c;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+}
+
+.btn-back-search, .btn-back-share {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #70554c; 
+    color: #e2dd39;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+
+    color: #e2dd39;
+    background-color: #70554c;
+    border: 2px solid #d39c24;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-danger {
+    background-color: #cc0033; 
+    border: 2px solid #a30026;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background-color: #a30026;
+    color: #fff;
+}
+
+.btn:hover {
+    background-color: #d39c24; /* Highlight on hover */
+    color: #70554c;
+}
+
+/* Navigation */
+nav ul {
+    list-style-type: none; /* Remove bullets */
+    padding: 10px; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+}
+
+nav li {
+    margin-right: 10px; /* Add some space between items */
+}
+
+/* Icons */
+.fa-solid {
+    display: inline-block;
+    font-size: 35px;
+    color: #00abff;
+    margin-top: 40px;
+}
+
+.fa-solid:hover {
+    display: inline-block;
+    font-size: 35px;
+    color: #00abff;
+    transform: scale(1.05); /* Slightly enlarge on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+}
+
+/* Containers */
+.container {
+    display: flex;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px; /* Adjust as needed */
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.centered-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Edit Form */
+.edit-form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.edit-form .form-group {
+    margin-bottom: 15px;
+}
+
+.edit-form .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.edit-form .form-group input,
+.edit-form .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* Button Group */
+.button-group {
+    justify-content: space-between;
+    margin-top: auto;
+}
+
+/* Back Button Container */
+.back-button-container {
+    position: absolute;
+    margin-top: auto;
+    margin-top: 40px;
+}
+
+.back-button-container-search, .back-button-container-share {
+    position: fixed;
+    bottom: 20px;
+    left: 20px; 
+}
+
+/* Authentication Container */
+.auth-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 130px;
+    background-color: #474747;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* Title */
+.auth-title {
+    font-family: "Cinzel", serif;
+    font-size: 24px;
+    color: #e2dd39;
+    margin-bottom: 15px;
+}
+
+/* Form Styles */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.auth-label {
+    display: block;
+    font-size: 14px;
+    color: #eef3f9;
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+.auth-form input {
+    width: 100%;
+    padding: 10px;
+    background: #474b4f;
+    border: 1px solid #777;
+    border-radius: 5px;
+    color: #eef3f9;
+    font-size: 14px;
+}
+
+.auth-form input:focus {
+    border-color: #d39c24;
+    outline: none;
+}
+
+/* Buttons */
+.auth-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: #d39c24;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.auth-btn:hover {
+    background: #e2dd39;
+    color: #70554c;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Secondary Buttons */
+.auth-btn-secondary {
+    background: #70554c;
+    border: 2px solid #d39c24;
+    color: #e2dd39;
+    padding: 10px;
+    text-align: center;
+    display: inline-block;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+}
+
+.auth-btn-secondary:hover {
+    background: #d39c24;
+    color: #70554c;
+}
+
+/* Error Messages */
+.error-message {
+    color: #cc0033;
+    font-size: 12px;
+    text-align: left;
+    margin-top: -10px;
+}
+
+/* Auth Divider */
+.auth-divider {
+    margin: 20px 0;
+    border: none;
+    height: 1px;
+    background: #e2dd39;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Links */
+.auth-link {
+    color: #e2dd39;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.auth-link:hover {
+    color: #d39c24;
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+    .auth-container {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .auth-btn {
+        font-size: 14px;
+    }
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    /* General body adjustments */
+    body {
+        padding: 10px;
+        font-size: 14px; /* Reduce font size for smaller screens */
+    }
+
+    /* Header adjustments */
+    .header {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 0;
+    }
+
+    .header h1 {
+        font-size: 24px;
+    }
+
+    /* Navigation */
+    nav ul {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0;
+    }
+
+    nav li {
+        margin: 5px 0;
+    }
+
+    /* Sidebar adjustments */
+    #sidebar {
+        width: 100%;
+        padding: 15px;
+        text-align: center;
+    }
+
+    /* Content adjustments */
+    .centered-content {
+        padding: 10px;
+        max-width: 100%;
+    }
+
+    /* Form adjustments */
+    input, textarea {
+        width: 100%;
+        font-size: 16px;
+        padding: 8px;
+    }
+
+    .btn {
+        width: 100%; /* Buttons span full width on mobile */
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    .btn-back {
+        margin-top: 50px;  
+    }
+
+    .button-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    /* Adjust tags visibility and spacing */
+    .tags {
+        display: block;
+        margin: 10px 0;
+    }
+
+    /* Comments section */
+    .comments-section {
+        padding: 0 10px;
+    }
+
+    .comment {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    /* Pagination */
+    .pagination {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+/* Pagination */
+.pagination {
+    font-family: "Cinzel", serif;
+    font-weight: 400; 
+    margin: 40px 0; 
+    font-weight: bold;
+    color: #d39c24;
+}
