@@ -31,7 +31,7 @@ class Post(models.Model):
     objects = models.Manager()
     published = PublishedManager()
     tags = TaggableManager(blank=True)
-    featured_image = CloudinaryField('image', default='placeholder')
+    featured_image = CloudinaryField('image', blank=True, null=True)
 
     class Status(models.TextChoices):
         DRAFT = "DF", "Draft"

@@ -160,7 +160,7 @@ def post_search(request):
 def post_create(request):
     """Create a new post."""
     if request.method == "POST":
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
