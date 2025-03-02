@@ -166,6 +166,7 @@ CLOUDINARY_URL = os.environ.get('CLOUDINARY_URL')
 
 # Summernote
 SUMMERNOTE_CONFIG = {
+    "attachment_storage": "cloudinary_storage.storage.MediaCloudinaryStorage",
     "summernote": {
         "width": "100%",
         "height": "400",
