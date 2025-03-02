@@ -531,6 +531,11 @@ nav li {
     color: #d39c24;
 }
 
+.post-image {
+    max-width: 100%;
+}
+
+
 /* Mobile Responsive */
 @media (max-width: 600px) {
     .auth-container {
