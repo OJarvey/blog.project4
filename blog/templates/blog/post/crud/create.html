@@ -23,16 +23,16 @@
         {{ form.tags }}
       </div>
 
+            <!-- Featured Image Upload (Only One) -->
+      <div class="form-group">
+        <label for="id_featured_image">Featured Image:</label>
+        {{ form.featured_image }}
+      </div>
+
       <!-- Summernote Editor -->
       <div class="form-group">
         {{ form.body.label_tag }}
         {{ form.body }}
-      </div>
-
-      <!-- Featured Image Upload (Only One) -->
-      <div class="form-group">
-        <label for="id_featured_image">Featured Image:</label>
-        {{ form.featured_image }}
       </div>
 
       <button type="submit" class="btn btn-primary">Submit</button>

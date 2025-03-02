@@ -164,7 +164,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 CLOUDINARY_URL = os.environ.get('CLOUDINARY_URL')
 CLOUDINARY_STORAGE = {
-    "CLOUDINARY_URL": CLOUDINARY_URL
+    "CLOUDINARY_URL": CLOUDINARY_URL,
+    "DEFAULT_TRANSFORMATION": [{"width": 200, "height": 150, "crop": "limit"}],
 }
 
 # Summernote
@@ -173,7 +174,7 @@ SUMMERNOTE_CONFIG = {
     "disable_attachment": False, # Allow image uploads
     "summernote": {
         "width": "100%",
-        "height": "400",
+        "height": "250",
         "toolbar": [
             ["style", ["style"]],
             ["font", ["bold", "italic", "underline", "clear"]],

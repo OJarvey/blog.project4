@@ -177,20 +177,39 @@ def post_create(request):
 @login_required
 def post_update(request, post_id):
     """Update an existing post."""
+     
     post = get_object_or_404(Post, id=post_id)
+    
     if post.author != request.user:
         raise PermissionDenied("You are not allowed to edit this post.")
+    
     if request.method == "POST":
         form = PostForm(request.POST, instance=post)
+        
+
         if form.is_valid():
-            post = form.save(commit=False)
-            post.slug = slugify(post.title)
-            post.save()
+            updated_post = form.save(commit=False)
+
+            # Update slug in case the title changes
+            updated_post.slug = slugify(updated_post.title)
+
+            # Check if a new featured image is uploaded
+            if "featured_image" in request.FILES:
+                # If an old image exists, delete it from Cloudinary
+                if post.featured_image:
+                    destroy(post.featured_image.public_id)
+
+                updated_post.featured_image = request.FILES["featured_image"]
+
+            updated_post.save()
             form.save_m2m()
+
             messages.success(request, "Post updated successfully!")
-            return redirect(post.get_absolute_url())
+            return redirect(updated_post.get_absolute_url())
+
     else:
         form = PostForm(instance=post)
+
     return render(request, "blog/post/crud/edit.html", {"form": form, "post": post})
 
 

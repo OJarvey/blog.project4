@@ -3,11 +3,42 @@
 {% block content %}
 <div class="centered-content">
   <h2 class="center-title">Edit Post</h2>
+
   <form method="post" class="edit-form" enctype="multipart/form-data">
     {% csrf_token %}
+    
+    <!-- Title Field -->
     <div class="form-group">
-      {{ form.as_p }}
+      {{ form.title.label_tag }}
+      {{ form.title }}
     </div>
+
+    <!-- Tags Field -->
+    <div class="form-group">
+      {{ form.tags.label_tag }}
+      {{ form.tags }}
+    </div>
+
+    <!-- Summernote Editor -->
+    <div class="form-group">
+      {{ form.body.label_tag }}
+      {{ form.body }}
+    </div>
+
+    <!-- Featured Image -->
+    {% if post.featured_image and "placeholder" not in post.featured_image.url %}
+    <div class="form-group">
+      <label>Current Featured Image:</label>
+      <img src="{{ post.featured_image.url }}" alt="Current Featured Image" style="max-width: 90px; border-radius: 8px;">
+    </div>
+    {% endif %}
+
+    <!-- Featured Image Upload (New Image) -->
+    <div class="form-group">
+      <label for="id_featured_image">Change Featured Image:</label>
+      {{ form.featured_image }}
+    </div>
+
     <div class="button-group">
       <button type="submit" class="btn btn-update">Update</button>
       <a href="javascript:history.back()" class="btn-back">Back</a>

@@ -15,7 +15,7 @@
 
   <form method="get" class="filter-form">
     <select name="filter" onchange="this.form.submit()" class="form-control">
-      <option value="" {% if not request.GET.filter %}selected{% endif %}>Select Filter</option>
+      <option {% if not request.GET.filter %}selected{% endif %}>Select Filter</option>
       <option value="name" {% if request.GET.filter == "name" %}selected{% endif %}>Name (A-Z)</option>
       <option value="date" {% if request.GET.filter == "date" %}selected{% endif %}>Old to New</option>
       <option value="trending" {% if request.GET.filter == "trending" %}selected{% endif %}>Trending</option>
@@ -42,6 +42,9 @@
       Published {{ post.publish }} by {{ post.author }}
     </p>
     <div class="post-body">
+      {% if post.featured_image %}
+      <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="post-image" />
+    {% endif %}
       {{ post.body|safe|truncatewords_html:30 }}
     </div>
   {% endfor %}
