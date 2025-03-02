@@ -44,11 +44,6 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ["title", "category", "tags", "body"]
         widgets = {
-            "title": forms.TextInput(attrs={"placeholder": "Enter post title"}),
-            "category": forms.Select(attrs={"class": "form-control"}),
-            "tags": forms.TextInput(
-                attrs={"placeholder": "Enter tags separated by commas"}
-            ),
             "body": SummernoteWidget(),
         }
 

@@ -153,13 +153,18 @@ USE_TZ = True
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "blog" / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Media Files
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-# Summernote configuration
+# Cloudinary
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+CLOUDINARY_URL = os.environ.get('CLOUDINARY_URL')
+
+# Summernote
 SUMMERNOTE_CONFIG = {
     "summernote": {
         "width": "100%",
@@ -172,37 +177,7 @@ SUMMERNOTE_CONFIG = {
             ["view", ["fullscreen", "codeview"]],
         ],
     },
-    "attachment_upload_to": "summernote/%Y/%m/%d/",
 }
-
-# Cloudinary Configuration
-CLOUDINARY_CLOUD_NAME = config("CLOUDINARY_CLOUD_NAME")
-CLOUDINARY_API_KEY = config("CLOUDINARY_API_KEY")
-CLOUDINARY_API_SECRET = config("CLOUDINARY_API_SECRET")
-
-cloudinary.config(
-    cloud_name=CLOUDINARY_CLOUD_NAME,
-    api_key=CLOUDINARY_API_KEY,
-    api_secret=CLOUDINARY_API_SECRET,
-)
-
-USE_CLOUDINARY = config("USE_CLOUDINARY", default=False, cast=bool)
-
-if USE_CLOUDINARY:
-    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-    CLOUDINARY_STORAGE = {
-        "CLOUD_NAME": CLOUDINARY_CLOUD_NAME,
-        "API_KEY": CLOUDINARY_API_KEY,
-        "API_SECRET": CLOUDINARY_API_SECRET,
-    }
-
-    MEDIA_URL = (
-        f"https://res.cloudinary.com/{CLOUDINARY_CLOUD_NAME}/image/upload/v1/media/"
-    )
-else:
-    MEDIA_ROOT = BASE_DIR / "media"
-    MEDIA_URL = "/media/"
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

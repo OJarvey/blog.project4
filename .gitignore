@@ -44,3 +44,5 @@ build/
 *.tmp
 *.zip
 *.tar.gz
+
+env.py
