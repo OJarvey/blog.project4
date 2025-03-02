@@ -158,7 +158,7 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Media Files
 MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # Cloudinary
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
@@ -167,6 +167,7 @@ CLOUDINARY_URL = os.environ.get('CLOUDINARY_URL')
 # Summernote
 SUMMERNOTE_CONFIG = {
     "attachment_storage": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    "disable_attachment": False, # defaults to False
     "summernote": {
         "width": "100%",
         "height": "400",
