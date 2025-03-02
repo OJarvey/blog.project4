@@ -16,6 +16,7 @@ cryptography==44.0.0
 defusedxml==0.7.1
 dill==0.3.8
 dj-database-url==2.3.0
+dj3-cloudinary-storage==0.0.6
 Django==5.1.4
 django-allauth==65.3.0
 django-cloudinary-storage==0.3.0
