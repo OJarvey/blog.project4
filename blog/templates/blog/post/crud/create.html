@@ -7,11 +7,41 @@
     <h2 class="center-title">Create New Post</h2>
     <form method="post" class="edit-form" enctype="multipart/form-data">
       {% csrf_token %}
-      <div class="form-group">{{ form.as_p }}</div>
+      
+      <!-- Form Fields -->
+      <div class="form-group">
+        {{ form.category }}
+      </div>
+
+      <div class="form-group">
+        {{ form.title.label_tag }}
+        {{ form.title }}
+      </div>
+
+      <div class="form-group">
+        {{ form.tags.label_tag }}
+        {{ form.tags }}
+      </div>
+
+      <!-- Summernote Editor -->
+      <div class="form-group">
+        {{ form.body.label_tag }}
+        {{ form.body }}
+      </div>
+
+      <!-- Featured Image Upload (Only One) -->
+      <div class="form-group">
+        <label for="id_featured_image">Featured Image:</label>
+        {{ form.featured_image }}
+      </div>
+
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+
     <div class="button-group">
       <a href="javascript:history.back()" class="btn-back">Back</a>
     </div>
   </div>
+
+
 {% endblock %}

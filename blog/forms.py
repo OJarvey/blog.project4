@@ -2,6 +2,7 @@ from django import forms
 from .models import Comment, Post, Category
 from django_summernote.widgets import SummernoteWidget
 from bs4 import BeautifulSoup
+from cloudinary.forms import CloudinaryFileField
 
 
 class CommentForm(forms.ModelForm):
@@ -40,9 +41,13 @@ class SearchForm(forms.Form):
 
 
 class PostForm(forms.ModelForm):
+    featured_image = CloudinaryFileField(
+        options={"folder": "blog_featured_images"},  # Save images in this Cloudinary folder
+        required=False
+    )
     class Meta:
         model = Post
-        fields = ["title", "category", "tags", "body"]
+        fields = ["title", "category", "tags", "body", ]
         widgets = {
             "body": SummernoteWidget(),
         }
