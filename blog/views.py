@@ -11,6 +11,10 @@ from django.utils.text import slugify
 from .models import Post, Comment, Category
 from .forms import CommentForm, EmailPostForm, SearchForm, PostForm
 from taggit.models import Tag
+from django.http import JsonResponse
+from cloudinary.uploader import destroy
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
 
 
 @require_POST
@@ -202,6 +206,14 @@ def post_delete(request, post_id):
         return redirect("blog:post_list")
     return render(request, "blog/post/crud/delete.html", {"post": post})
 
+@csrf_exempt  # For production, handle CSRF properly
+@require_POST
+def delete_temp_image(request):
+    public_id = request.POST.get("public_id")
+    if public_id:
+        result = destroy(public_id)
+        return JsonResponse({"status": "deleted", "result": result})
+    return JsonResponse({"status": "error", "message": "No public_id provided"}, status=400)
 
 def post_list_by_category(request, category_slug):
     """Display posts filtered by category."""
