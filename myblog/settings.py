@@ -171,7 +171,7 @@ CLOUDINARY_STORAGE = {
 # Summernote
 SUMMERNOTE_CONFIG = {
     "attachment_storage": "cloudinary_storage.storage.MediaCloudinaryStorage",
-    "disable_attachment": False, # Allow image uploads
+    "disable_attachment": True,
     "summernote": {
         "width": "100%",
         "height": "250",
