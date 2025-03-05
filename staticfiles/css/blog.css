@@ -549,8 +549,8 @@ nav li {
 
 .post-image {
     max-width: 100%;
+    border-radius: 20px;
 }
-
 
 /* Mobile Responsive */
 @media (max-width: 600px) {
