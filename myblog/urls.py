@@ -38,7 +38,6 @@ urlpatterns = [
         name="django.contrib.sitemaps.views.sitemap",
     ),
     path("blog/", include(("blog.urls", "blog"), namespace="blog")),
-    path('summernote/', include('django_summernote.urls')),
 ]
 
 if settings.DEBUG:

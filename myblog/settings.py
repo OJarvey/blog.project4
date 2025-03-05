@@ -54,13 +54,13 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    "django_summernote",
     "django.contrib.sitemaps",
     "django.contrib.postgres",
     "taggit",
-    'whitenoise.runserver_nostatic',
+    "whitenoise.runserver_nostatic",
     "cloudinary",
     "blog.apps.BlogConfig",
+    "ckeditor",
 ]
 
 MIDDLEWARE = [
@@ -168,21 +168,23 @@ CLOUDINARY_STORAGE = {
     "DEFAULT_TRANSFORMATION": [{"width": 200, "height": 150, "crop": "limit"}],
 }
 
-# Summernote
-SUMMERNOTE_CONFIG = {
-    "attachment_storage": "cloudinary_storage.storage.MediaCloudinaryStorage",
-    "disable_attachment": True,
-    "summernote": {
-        "width": "100%",
-        "height": "250",
-        "toolbar": [
-            ["style", ["style"]],
-            ["font", ["bold", "italic", "underline", "clear"]],
-            ["para", ["ul", "ol", "paragraph"]],
-            ["insert", ["link", "video"]],
-            ["view", ["fullscreen", "codeview"]],
+# CKEditor Configuration
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar_Full': [
+            ['Styles', 'Format', 'Bold', 'Italic', 'Underline', 'Strike'],
+            ['NumberedList', 'BulletedList', 'Blockquote'],
+            ['Link', 'Unlink', 'Anchor'],
+            ['RemoveFormat', 'Source'],
         ],
-    },
+        'width': '100%',
+        'height': '250px',
+        'extraPlugins': ','.join([
+            'autolink',
+        ]),
+        'removePlugins': 'image,iframe,pagebreak,flash',  # Disable media
+        'disableNativeSpellChecker': False,
+    }
 }
 
 # Default primary key field type

@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.utils import timezone
 from taggit.managers import TaggableManager
 from cloudinary.models import CloudinaryField
+from ckeditor.fields import RichTextField
 
 
 class PublishedManager(models.Manager):
@@ -47,7 +48,7 @@ class Post(models.Model):
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True, related_name="posts"
     )
-    body = models.TextField()
+    body = RichTextField(config_name='default')
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

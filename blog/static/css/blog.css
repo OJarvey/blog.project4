@@ -501,6 +501,22 @@ nav li {
     color: #70554c;
 }
 
+/* Fix CKEditor display */
+.cke_chrome {
+    border-radius: 8px !important;
+    margin: 10px 0 !important;
+}
+
+.cke_top {
+    background: #f8f9fa !important;
+    border-bottom: 1px solid #dee2e6 !important;
+}
+
+.cke_toolgroup {
+    background: white !important;
+    border: 1px solid #dee2e6 !important;
+}
+
 /* Error Messages */
 .error-message {
     color: #cc0033;

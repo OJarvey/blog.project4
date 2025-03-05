@@ -8,6 +8,8 @@
     <form method="post" class="edit-form" enctype="multipart/form-data">
       {% csrf_token %}
       
+      {{ form.media }}
+      
       <!-- Form Fields -->
       <div class="form-group">
         {{ form.category }}
@@ -29,7 +31,7 @@
         {{ form.featured_image }}
       </div>
 
-      <!-- Summernote Editor -->
+      <!-- Editor -->
       <div class="form-group">
         {{ form.body.label_tag }}
         {{ form.body }}

@@ -1,8 +1,8 @@
 from django import forms
 from .models import Comment, Post, Category
-from django_summernote.widgets import SummernoteWidget
 from bs4 import BeautifulSoup
 from cloudinary.forms import CloudinaryFileField
+from ckeditor.widgets import CKEditorWidget
 
 
 class CommentForm(forms.ModelForm):
@@ -49,7 +49,7 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ["title", "category", "tags", "body", "featured_image"]
         widgets = {
-            "body": SummernoteWidget(),
+            "body": CKEditorWidget(config_name='default')
         }
 
     def __init__(self, *args, **kwargs):
