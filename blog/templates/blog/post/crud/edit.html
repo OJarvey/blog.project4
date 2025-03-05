@@ -6,6 +6,12 @@
 
   <form method="post" class="edit-form" enctype="multipart/form-data">
     {% csrf_token %}
+
+    {{ form.media }}
+
+    <div class="form-group">
+      {{ form.category }}
+    </div>
     
     <!-- Title Field -->
     <div class="form-group">

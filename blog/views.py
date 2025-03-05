@@ -171,7 +171,8 @@ def post_create(request):
             return redirect(post.get_absolute_url())
     else:
         form = PostForm()
-    return render(request, "blog/post/crud/create.html", {"form": form})
+    categories = Category.objects.all()
+    return render(request, "blog/post/crud/create.html", {"form": form, "categories": categories})
 
 
 @login_required
