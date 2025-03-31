@@ -1,21 +1,24 @@
 from pathlib import Path
 import os
-from decouple import config
 import dj_database_url
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
+if os.path.isfile("env.py"):
+    import env
+
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "myblog.settings")
 
 
+# Email Settings
 EMAIL_HOST = "smtp.gmail.com"
-EMAIL_HOST_USER = config("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,10 +28,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config("SECRET_KEY")
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'DEVELOPMENT' in os.environ
+DEBUG = os.environ.get("DEVELOPMENT") == "True"
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
@@ -103,16 +106,15 @@ WSGI_APPLICATION = "myblog.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": config("DB_NAME"),
-        "USER": config("DB_USER"),
-        "PASSWORD": config("DB_PASSWORD"),
-        "HOST": config("DB_HOST"),
+        "NAME": os.environ.get("DB_NAME"),
+        "USER": os.environ.get("DB_USER"),
+        "PASSWORD": os.environ.get("DB_PASSWORD"),
+        "HOST": os.environ.get("DB_HOST"),
     }
 }
 DATABASES["default"].update(
-    dj_database_url.config(default=config("DATABASE_URL", default=""))
+    dj_database_url.config(default=os.environ.get("DATABASE_URL", ""))
 )
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -163,7 +165,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # Cloudinary
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
-CLOUDINARY_URL = os.environ.get('CLOUDINARY_URL')
+CLOUDINARY_URL = os.environ.get("CLOUDINARY_URL")
 CLOUDINARY_STORAGE = {
     "CLOUDINARY_URL": CLOUDINARY_URL,
     "DEFAULT_TRANSFORMATION": [{"width": 200, "height": 150, "crop": "limit"}],
@@ -171,20 +173,22 @@ CLOUDINARY_STORAGE = {
 
 # CKEditor Configuration
 CKEDITOR_CONFIGS = {
-    'default': {
-        'toolbar_Full': [
-            ['Styles', 'Format', 'Bold', 'Italic', 'Underline', 'Strike'],
-            ['NumberedList', 'BulletedList', 'Blockquote'],
-            ['Link', 'Unlink', 'Anchor'],
-            ['RemoveFormat', 'Source'],
+    "default": {
+        "toolbar_Full": [
+            ["Styles", "Format", "Bold", "Italic", "Underline", "Strike"],
+            ["NumberedList", "BulletedList", "Blockquote"],
+            ["Link", "Unlink", "Anchor"],
+            ["RemoveFormat", "Source"],
         ],
-        'width': '100%',
-        'height': '250px',
-        'extraPlugins': ','.join([
-            'autolink',
-        ]),
-        'removePlugins': 'image,iframe,pagebreak,flash',  # Disable media
-        'disableNativeSpellChecker': False,
+        "width": "100%",
+        "height": "250px",
+        "extraPlugins": ",".join(
+            [
+                "autolink",
+            ]
+        ),
+        "removePlugins": "image,iframe,pagebreak,flash",  # Disable media
+        "disableNativeSpellChecker": False,
     }
 }
 
