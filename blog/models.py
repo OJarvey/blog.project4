@@ -42,7 +42,12 @@ class Post(models.Model):
     objects = models.Manager()
     published = PublishedManager()
     tags = TaggableManager(blank=True)
-    featured_image = CloudinaryField('image', blank=True, null=True)
+    featured_image = CloudinaryField(
+        'image',
+        transformation={"width": 1870, "height": 1250, "crop": "fill"},
+        blank=True,
+        null=True
+    )
 
     class Status(models.TextChoices):
         DRAFT = "DF", "Draft"
