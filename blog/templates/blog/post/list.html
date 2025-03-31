@@ -43,7 +43,7 @@
     </p>
     <div class="post-body">
       {% if post.featured_image %}
-      <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="post-image" />
+      <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="post-image">
     {% endif %}
       {{ post.body|safe|truncatewords_html:30 }}
     </div>
