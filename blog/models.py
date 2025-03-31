@@ -16,16 +16,6 @@ class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True)
     description = models.TextField(blank=True)
-    
-    class Meta:
-        verbose_name_plural = "categories"
-        ordering = ["name"]
-
-    def __str__(self):
-        return self.name
-
-    def get_absolute_url(self):
-        return reverse("blog:post_list_by_category", args=[self.slug])
 
     class Meta:
         verbose_name_plural = "categories"
@@ -43,10 +33,13 @@ class Post(models.Model):
     published = PublishedManager()
     tags = TaggableManager(blank=True)
     featured_image = CloudinaryField(
-        'image',
+        "image",
         transformation={"width": 1870, "height": 1250, "crop": "fill"},
         blank=True,
-        null=True
+        null=True,
+    )
+    likes = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name="blog_post_likes", blank=True
     )
 
     class Status(models.TextChoices):
@@ -63,7 +56,7 @@ class Post(models.Model):
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True, related_name="posts"
     )
-    body = RichTextField(config_name='default')
+    body = RichTextField(config_name="default")
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -81,6 +74,9 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+    def total_likes(self):
+        return self.likes.count()
 
     def get_absolute_url(self):
         return reverse(

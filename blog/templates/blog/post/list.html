@@ -1,5 +1,6 @@
 {% extends 'blog/base.html' %}
 {% load blog_tags %}
+{% load static %}
 {% block title %}
    Blog Soul
 {% endblock %}
@@ -43,11 +44,18 @@
     </p>
     <div class="post-body">
       {% if post.featured_image %}
-      <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="post-image">
+      <a href="{{ post.get_absolute_url }}">
+        <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="post-image">
+      </a>
     {% endif %}
-      {{ post.body|safe|truncatewords_html:30 }}
+    {% include "blog/post/includes/like_section.html" with post=post likers=post.likes.all %}
+      {{ post.body|safe|truncatewords_html:20 }}
     </div>
   {% endfor %}
   {% include "pagination.html" with page=posts %}
 </div>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{% static 'js/like.js' %}" defer></script>
 {% endblock %}

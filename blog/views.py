@@ -13,7 +13,6 @@ from .forms import CommentForm, EmailPostForm, SearchForm, PostForm
 from taggit.models import Tag
 from django.http import JsonResponse
 from cloudinary.uploader import destroy
-from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -46,7 +45,10 @@ def toggle_comment_status(request, comment_id):
     if request.user.is_staff or comment.post.author == request.user:
         comment.active = not comment.active
         comment.save()
-        messages.success(request, f"Comment {'activated' if comment.active else 'deactivated'} successfully!")
+        messages.success(
+            request,
+            f"Comment {'activated' if comment.active else 'deactivated'} successfully!",
+        )
     else:
         raise PermissionDenied("You are not allowed to moderate this comment.")
     return redirect(comment.post.get_absolute_url())
@@ -54,20 +56,24 @@ def toggle_comment_status(request, comment_id):
 
 def post_list_with_categories(request, tag_slug=None):
     """Display posts with category sidebar and custom filtering."""
-    posts_list = Post.published.all()
+    posts_list = Post.published.select_related("author", "category").prefetch_related(
+        "tags"
+    )
     tag = None
-    
+
     if tag_slug:
         tag = get_object_or_404(Tag, slug=tag_slug)
         posts_list = posts_list.filter(tags__in=[tag])
-    
+
     filter_option = request.GET.get("filter")
     if filter_option == "name":
         posts_list = posts_list.order_by("title")
     elif filter_option == "date":
         posts_list = posts_list.order_by("publish")
     elif filter_option == "trending":
-        posts_list = posts_list.annotate(comment_count=Count("comments")).order_by("-comment_count")
+        posts_list = posts_list.annotate(comment_count=Count("comments")).order_by(
+            "-comment_count"
+        )
     else:
         posts_list = posts_list.order_by("-publish")
 
@@ -86,6 +92,7 @@ def post_list_with_categories(request, tag_slug=None):
         "blog/post/list.html",
         {"posts": posts, "tag": tag, "categories": categories},
     )
+
 
 def post_detail(request, year, month, day, post):
     """Display post details with comments and similar posts."""
@@ -106,6 +113,8 @@ def post_detail(request, year, month, day, post):
         .annotate(same_tags=Count("tags"))
         .order_by("-same_tags", "-publish")[:4]
     )
+    
+    likers = post.likes.all() 
 
     return render(
         request,
@@ -115,6 +124,7 @@ def post_detail(request, year, month, day, post):
             "comments": comments,
             "form": form,
             "similar_posts": similar_posts,
+            "likers": likers,
         },
     )
 
@@ -134,7 +144,9 @@ def post_share(request, post_id):
             sent = True
     else:
         form = EmailPostForm()
-    return render(request, "blog/post/share.html", {"post": post, "form": form, "sent": sent})
+    return render(
+        request, "blog/post/share.html", {"post": post, "form": form, "sent": sent}
+    )
 
 
 def post_search(request):
@@ -146,14 +158,22 @@ def post_search(request):
         form = SearchForm(request.GET)
         if form.is_valid():
             query = form.cleaned_data["query"]
-            search_vector = SearchVector("title", weight="A") + SearchVector("body", weight="B")
+            search_vector = SearchVector("title", weight="A") + SearchVector(
+                "body", weight="B"
+            )
             search_query = SearchQuery(query)
             results = (
-                Post.published.annotate(search=search_vector, rank=SearchRank(search_vector, search_query))
+                Post.published.annotate(
+                    search=search_vector, rank=SearchRank(search_vector, search_query)
+                )
                 .filter(rank__gte=0.3)
                 .order_by("-rank")
             )
-    return render(request, "blog/post/search.html", {"form": form, "query": query, "results": results})
+    return render(
+        request,
+        "blog/post/search.html",
+        {"form": form, "query": query, "results": results},
+    )
 
 
 @login_required
@@ -172,45 +192,33 @@ def post_create(request):
     else:
         form = PostForm()
     categories = Category.objects.all()
-    return render(request, "blog/post/crud/create.html", {"form": form, "categories": categories})
+    return render(
+        request, "blog/post/crud/create.html", {"form": form, "categories": categories}
+    )
 
 
 @login_required
 def post_update(request, post_id):
     """Update an existing post."""
-     
     post = get_object_or_404(Post, id=post_id)
-    
     if post.author != request.user:
         raise PermissionDenied("You are not allowed to edit this post.")
-    
+
     if request.method == "POST":
         form = PostForm(request.POST, instance=post)
-        
-
         if form.is_valid():
             updated_post = form.save(commit=False)
-
-            # Update slug in case the title changes
             updated_post.slug = slugify(updated_post.title)
-
-            # Check if a new featured image is uploaded
             if "featured_image" in request.FILES:
-                # If an old image exists, delete it from Cloudinary
                 if post.featured_image:
                     destroy(post.featured_image.public_id)
-
                 updated_post.featured_image = request.FILES["featured_image"]
-
             updated_post.save()
             form.save_m2m()
-
             messages.success(request, "Post updated successfully!")
             return redirect(updated_post.get_absolute_url())
-
     else:
         form = PostForm(instance=post)
-
     return render(request, "blog/post/crud/edit.html", {"form": form, "post": post})
 
 
@@ -226,14 +234,18 @@ def post_delete(request, post_id):
         return redirect("blog:post_list")
     return render(request, "blog/post/crud/delete.html", {"post": post})
 
-@csrf_exempt  # For production, handle CSRF properly
+
+@csrf_exempt
 @require_POST
 def delete_temp_image(request):
     public_id = request.POST.get("public_id")
     if public_id:
         result = destroy(public_id)
         return JsonResponse({"status": "deleted", "result": result})
-    return JsonResponse({"status": "error", "message": "No public_id provided"}, status=400)
+    return JsonResponse(
+        {"status": "error", "message": "No public_id provided"}, status=400
+    )
+
 
 def post_list_by_category(request, category_slug):
     """Display posts filtered by category."""
@@ -248,4 +260,33 @@ def post_list_by_category(request, category_slug):
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
     categories = Category.objects.all()
-    return render(request, "blog/post/list.html", {"posts": posts, "category": category, "categories": categories})
+    return render(
+        request,
+        "blog/post/list.html",
+        {"posts": posts, "category": category, "categories": categories},
+    )
+
+
+@login_required
+@require_POST
+def post_like(request, post_id):
+    """Handle liking/unliking a post via AJAX."""
+    post = get_object_or_404(Post, id=post_id, status=Post.Status.PUBLISHED)
+    user = request.user
+    
+    if user in post.likes.all():
+        post.likes.remove(user)
+        liked = False
+    else:
+        post.likes.add(user)
+        liked = True
+    
+    # Get updated likers list
+    likers = [liker.username for liker in post.likes.all()]
+    
+    return JsonResponse({
+        "status": "success",
+        "liked": liked,
+        "likes_count": post.total_likes(),
+        "likers": likers
+    })
