@@ -191,6 +191,11 @@ CKEDITOR_CONFIGS = {
         ),
         "removePlugins": "image,iframe,pagebreak,flash",  # Disable media
         "disableNativeSpellChecker": False,
+        "format_tags": "p;h2;h3",  # Allow only these heading levels
+        "format_default": "p",      # Default to paragraph format
+        "enterMode": 2,             # Shift+Enter creates line breaks
+        "shiftEnterMode": 1,        # Enter creates paragraphs
+        "forcePasteAsPlainText": True,
     }
 }
 

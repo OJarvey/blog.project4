@@ -56,7 +56,7 @@ class Post(models.Model):
         related_name="blog_posts",
     )
     category = models.ForeignKey(
-        Category, on_delete=models.SET_NULL, null=True, related_name="posts"
+        Category, on_delete=models.SET_NULL, null=True, blank=True, related_name="posts"
     )
     body = RichTextField(config_name="default")
     publish = models.DateTimeField(default=timezone.now)
