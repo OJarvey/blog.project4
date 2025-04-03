@@ -43,19 +43,18 @@ class SearchForm(forms.Form):
 class PostForm(forms.ModelForm):
     featured_image = CloudinaryFileField(
         options={
-            'folder': 'blog_featured_images',
-            'transformation': [
-                {'width': 1870, 'height': 1250, 'crop': 'fill'},
-            ]
+            "folder": "blog_featured_images",
+            "transformation": [
+                {"width": 1870, "height": 1250, "crop": "fill"},
+            ],
         },
-        required=False
+        required=False,
     )
+
     class Meta:
         model = Post
         fields = ["title", "category", "tags", "body", "featured_image"]
-        widgets = {
-            "body": CKEditorWidget(config_name='default')
-        }
+        widgets = {"body": CKEditorWidget(config_name="default")}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -69,8 +68,14 @@ class PostForm(forms.ModelForm):
         title = self.cleaned_data["title"]
         if len(title) < 3:
             raise forms.ValidationError("Title must be at least 3 characters long.")
-        if Post.objects.filter(title__iexact=title).exists():
+
+        qs = Post.objects.filter(title__iexact=title)
+        if self.instance.pk:
+            qs = qs.exclude(pk=self.instance.pk)
+
+        if qs.exists():
             raise forms.ValidationError("A post with this title already exists.")
+
         return title
 
     def clean_body(self):
