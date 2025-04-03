@@ -7,9 +7,9 @@ document.addEventListener("DOMContentLoaded", function () {
         // Listen for input events on the textarea
         commentBox.addEventListener("input", function () {
             if (commentBox.value.trim() !== "") {
-                submitButton.value = "Submit"; // Change button text to "Submit"
+                submitButton.value = "Submit";
             } else {
-                submitButton.value = "Add comment"; // Reset button text to "Add comment"
+                submitButton.value = "Add comment";
             }
         });
     } else {
