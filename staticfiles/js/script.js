@@ -13,6 +13,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     } else {
-        console.error("Textarea or submit button not found. Check your HTML structure.");
-    }
+        console.info("Comment form not found — skipping comment logic.");
+      }
 });

@@ -42,7 +42,12 @@ class SearchForm(forms.Form):
 
 class PostForm(forms.ModelForm):
     featured_image = CloudinaryFileField(
-        options={"folder": "blog_featured_images"},  # Save images in this Cloudinary folder
+        options={
+            'folder': 'blog_featured_images',
+            'transformation': [
+                {'width': 1870, 'height': 1250, 'crop': 'fill'},
+            ]
+        },
         required=False
     )
     class Meta:
@@ -62,17 +67,19 @@ class PostForm(forms.ModelForm):
 
     def clean_title(self):
         title = self.cleaned_data["title"]
-        if len(title) < 5:
-            raise forms.ValidationError("Title must be at least 5 characters long.")
+        if len(title) < 3:
+            raise forms.ValidationError("Title must be at least 3 characters long.")
+        if Post.objects.filter(title__iexact=title).exists():
+            raise forms.ValidationError("A post with this title already exists.")
         return title
 
     def clean_body(self):
         body = self.cleaned_data["body"]
         soup = BeautifulSoup(body, "html.parser")
         text_content = soup.get_text(strip=True)
-        if len(text_content) < 20:
+        if len(text_content) < 10:
             raise forms.ValidationError(
-                "Post body must contain at least 20 characters of visible text."
+                "Post body must contain at least 10 characters of visible text."
             )
         return body
 
@@ -80,11 +87,11 @@ class PostForm(forms.ModelForm):
         tags = self.cleaned_data.get("tags")
         if isinstance(tags, str):
             tag_list = [tag.strip() for tag in tags.split(",") if tag.strip()]
-            if len(tag_list) > 10:
-                raise forms.ValidationError("You can only add up to 10 tags.")
+            if len(tag_list) > 5:
+                raise forms.ValidationError("You can only add up to 5 tags.")
         elif isinstance(tags, list):
-            if len(tags) > 10:
-                raise forms.ValidationError("You can only add up to 10 tags.")
+            if len(tags) > 5:
+                raise forms.ValidationError("You can only add up to 5 tags.")
         else:
             return []
         return tags

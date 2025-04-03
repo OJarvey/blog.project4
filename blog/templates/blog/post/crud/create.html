@@ -1,10 +1,20 @@
 {% extends 'blog/base.html' %}
-{% block title %}
-  Create New Post
-{% endblock %}
+{% block title %}Create New Post{% endblock %}
 {% block content %}
-  <div class="main-content">
+<div class="main-content">
     <h2 class="center-title">Create New Post</h2>
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        <strong>Error:</strong>
+        <ul>
+        {% for field, errors in form.errors.items %}
+            {% for error in errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
     <form method="post" class="edit-form" enctype="multipart/form-data">
       {% csrf_token %}
       
@@ -37,13 +47,10 @@
         {{ form.body }}
       </div>
 
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-
-    <div class="button-group">
-      <a href="javascript:history.back()" class="btn-back">Back</a>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a href="{% url 'blog:post_list' %}" class="btn-back">Cancel</a>
     </div>
-  </div>
-
-
+</form>
+</div>
 {% endblock %}

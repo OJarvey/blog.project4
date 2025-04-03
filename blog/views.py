@@ -56,9 +56,7 @@ def toggle_comment_status(request, comment_id):
 
 def post_list_with_categories(request, tag_slug=None):
     """Display posts with category sidebar and custom filtering."""
-    posts_list = Post.published.select_related("author", "category").prefetch_related(
-        "tags"
-    )
+    posts_list = Post.published.order_by('-publish').select_related("author", "category").prefetch_related("tags")
     tag = None
 
     if tag_slug:
@@ -182,18 +180,31 @@ def post_create(request):
     if request.method == "POST":
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.slug = slugify(post.title)
-            post.save()
-            form.save_m2m()
-            messages.success(request, "Post created successfully!")
-            return redirect(post.get_absolute_url())
+            try:
+                post = form.save(commit=False)
+                post.author = request.user
+                post.slug = slugify(post.title)
+                # Force image transformation on upload
+                if 'featured_image' in request.FILES:
+                    post.featured_image = form.cleaned_data['featured_image']
+                post.save()
+                form.save_m2m()
+                messages.success(request, "Post created successfully!")
+                return redirect(post.get_absolute_url())
+            except Exception as e:
+                messages.error(request, f"Error saving post: {str(e)}")
+        else:
+            messages.error(request, "Please correct the errors below.")
     else:
         form = PostForm()
-    categories = Category.objects.all()
+    
     return render(
-        request, "blog/post/crud/create.html", {"form": form, "categories": categories}
+        request, 
+        "blog/post/crud/create.html", 
+        {
+            "form": form,
+            "categories": Category.objects.all()
+        }
     )
 
 
@@ -212,7 +223,7 @@ def post_update(request, post_id):
             if "featured_image" in request.FILES:
                 if post.featured_image:
                     destroy(post.featured_image.public_id)
-                updated_post.featured_image = request.FILES["featured_image"]
+                updated_post.featured_image = form.cleaned_data['featured_image']
             updated_post.save()
             form.save_m2m()
             messages.success(request, "Post updated successfully!")

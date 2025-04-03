@@ -57,13 +57,13 @@ document.addEventListener('DOMContentLoaded', function () {
           })
       })
     })
-
+  
     // This must be outside the likeButtons loop
     const showLikersButtons = document.querySelectorAll('.btn-show-likers')
     showLikersButtons.forEach((button) => {
       button.addEventListener('click', toggleLikersList)
     })
-
+  
     function toggleLikersList(e) {
       const postId = this.getAttribute('data-post-id')
       const likersList = document.getElementById(`likers-${postId}`)

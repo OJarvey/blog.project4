@@ -2,6 +2,8 @@ from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.text import slugify
+from django.core.exceptions import ValidationError
 from taggit.managers import TaggableManager
 from cloudinary.models import CloudinaryField
 from ckeditor.fields import RichTextField
@@ -88,6 +90,22 @@ class Post(models.Model):
                 self.slug,
             ],
         )
+    def clean(self):
+        # Ensure slug is unique for the publish date
+        if not self.slug:
+            self.slug = slugify(self.title)
+            
+        if Post.objects.filter(
+            slug=self.slug,
+            publish__year=self.publish.year,
+            publish__month=self.publish.month,
+            publish__day=self.publish.day
+        ).exclude(id=self.id).exists():
+            raise ValidationError("A post with this title already exists for this date.")
+    
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 
 
 class Comment(models.Model):

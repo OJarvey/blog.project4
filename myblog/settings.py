@@ -31,7 +31,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", default=False) == "True"
+DEBUG = os.environ.get("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -169,7 +169,8 @@ DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 CLOUDINARY_URL = os.environ.get("CLOUDINARY_URL")
 CLOUDINARY_STORAGE = {
     "CLOUDINARY_URL": CLOUDINARY_URL,
-    "DEFAULT_TRANSFORMATION": [{"width": 200, "height": 150, "crop": "limit"}],
+    'SECURE': True,
+    'EXCLUDE_DELETE_ORPHANED_MEDIA_PATHS': True,
 }
 
 # CKEditor Configuration
