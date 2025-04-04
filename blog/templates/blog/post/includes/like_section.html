@@ -1,22 +1,21 @@
 <div class="like-section">
-    {% if user.is_authenticated %}
-      <button class="btn-like {% if user in post.likes.all %}liked{% endif %}" data-post-id="{{ post.id }}">
-        ❤️ <span class="like-count">{{ post.total_likes }}</span>
-      </button>
-      <button class="btn-show-likers" data-post-id="{{ post.id }}" 
+  <button class="btn-like" data-post-id="{{ post.id }}" {% if not user.is_authenticated %}disabled{% endif %}>
+      ❤️ <span class="like-count">{{ post.total_likes }}</span>
+  </button>
+  {% if user.is_authenticated %}
+      <button class="btn-show-likers" data-post-id="{{ post.id }}"
               style="{% if not likers %}display: none;{% endif %}">
-        Show Likers ({{ post.total_likes }})
+          Show Likers ({{ post.total_likes }})
       </button>
       <div class="likers-list" id="likers-{{ post.id }}" style="display: none;">
-        <h3>Liked by:</h3>
-        <ul>
-          {% for liker in likers %}
-            <li>{{ liker.username }}</li>
-          {% endfor %}
-        </ul>
+          <h3>Liked by:</h3>
+          <ul>
+              {% for liker in likers %}
+                  <li>{{ liker.username }}</li>
+              {% endfor %}
+          </ul>
       </div>
-    {% else %}
-      <p>Please <a href="{% url 'account_login' %}">log in</a> to like this post.</p>
-    {% endif %}
-  </div>
-
+  {% else %}
+      <p>Please <a href="{% url 'account_login' %}">log in</a> to like and see who liked this post.</p>
+  {% endif %}
+</div>
