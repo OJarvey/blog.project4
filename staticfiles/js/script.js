@@ -16,3 +16,19 @@ document.addEventListener("DOMContentLoaded", function () {
         console.info("Comment form not found — skipping comment logic.");
       }
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const toggleBtn = document.getElementById('sidebar-toggle');
+    const sidebar = document.getElementById('sidebar');
+  
+    if (toggleBtn && sidebar) {
+      toggleBtn.addEventListener('click', function () {
+        const isExpanded = sidebar.classList.contains('expanded');
+  
+        sidebar.classList.toggle('expanded', !isExpanded);
+        sidebar.classList.toggle('collapsed', isExpanded);
+        document.body.classList.toggle('sidebar-open', !isExpanded);
+      });
+    }
+  });
+  
