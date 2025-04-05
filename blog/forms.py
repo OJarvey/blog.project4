@@ -45,7 +45,13 @@ class PostForm(forms.ModelForm):
         options={
             "folder": "blog_featured_images",
             "transformation": [
-                {"width": 1870, "height": 1250, "crop": "fill"},
+                {
+                    "width": 1870,
+                    "height":1250,
+                    "crop": "fill",
+                    "quality": "auto:eco",
+                    "fetch_format": "auto",
+                    },
             ],
         },
         required=False,

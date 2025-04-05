@@ -36,7 +36,13 @@ class Post(models.Model):
     tags = TaggableManager(blank=True)
     featured_image = CloudinaryField(
         "image",
-        transformation={"width": 1870, "height": 1250, "crop": "fill"},
+        transformation={
+            "width": 1870,
+            "height": 1250,
+            "crop": "fill",
+            "quality": "auto:eco",
+            "fetch_format": "auto",
+            },
         blank=True,
         null=True,
     )

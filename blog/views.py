@@ -56,7 +56,11 @@ def toggle_comment_status(request, comment_id):
 
 def post_list_with_categories(request, tag_slug=None):
     """Display posts with category sidebar and custom filtering."""
-    posts_list = Post.published.order_by('-publish').select_related("author", "category").prefetch_related("tags")
+    posts_list = (
+        Post.published.order_by("-publish")
+        .select_related("author", "category")
+        .prefetch_related("tags")
+    )
     tag = None
 
     if tag_slug:
@@ -111,8 +115,8 @@ def post_detail(request, year, month, day, post):
         .annotate(same_tags=Count("tags"))
         .order_by("-same_tags", "-publish")[:4]
     )
-    
-    likers = post.likes.all() 
+
+    likers = post.likes.all()
 
     return render(
         request,
@@ -185,8 +189,8 @@ def post_create(request):
                 post.author = request.user
                 post.slug = slugify(post.title)
                 # Force image transformation on upload
-                if 'featured_image' in request.FILES:
-                    post.featured_image = form.cleaned_data['featured_image']
+                if "featured_image" in request.FILES:
+                    post.featured_image = form.cleaned_data["featured_image"]
                 post.save()
                 form.save_m2m()
                 messages.success(request, "Post created successfully!")
@@ -197,39 +201,44 @@ def post_create(request):
             messages.error(request, "Please correct the errors below.")
     else:
         form = PostForm()
-    
+
     return render(
-        request, 
-        "blog/post/crud/create.html", 
-        {
-            "form": form,
-            "categories": Category.objects.all()
-        }
+        request,
+        "blog/post/crud/create.html",
+        {"form": form, "categories": Category.objects.all()},
     )
 
 
 @login_required
 def post_update(request, post_id):
-    """Update an existing post."""
     post = get_object_or_404(Post, id=post_id)
+
     if post.author != request.user:
         raise PermissionDenied("You are not allowed to edit this post.")
 
     if request.method == "POST":
-        form = PostForm(request.POST, instance=post)
+        form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             updated_post = form.save(commit=False)
             updated_post.slug = slugify(updated_post.title)
+
             if "featured_image" in request.FILES:
                 if post.featured_image:
-                    destroy(post.featured_image.public_id)
-                updated_post.featured_image = form.cleaned_data['featured_image']
+                    try:
+                        destroy(post.featured_image.public_id)
+                    except Exception as e:
+                        print("Failed to delete old image:", e)
+                updated_post.featured_image = request.FILES["featured_image"]
+
             updated_post.save()
             form.save_m2m()
             messages.success(request, "Post updated successfully!")
             return redirect(updated_post.get_absolute_url())
+        else:
+            messages.error(request, "Please correct the form errors.")
     else:
         form = PostForm(instance=post)
+
     return render(request, "blog/post/crud/edit.html", {"form": form, "post": post})
 
 
@@ -284,20 +293,22 @@ def post_like(request, post_id):
     """Handle liking/unliking a post via AJAX."""
     post = get_object_or_404(Post, id=post_id, status=Post.Status.PUBLISHED)
     user = request.user
-    
+
     if user in post.likes.all():
         post.likes.remove(user)
         liked = False
     else:
         post.likes.add(user)
         liked = True
-    
+
     # Get updated likers list
     likers = [liker.username for liker in post.likes.all()]
-    
-    return JsonResponse({
-        "status": "success",
-        "liked": liked,
-        "likes_count": post.total_likes(),
-        "likers": likers
-    })
+
+    return JsonResponse(
+        {
+            "status": "success",
+            "liked": liked,
+            "likes_count": post.total_likes(),
+            "likers": likers,
+        }
+    )
