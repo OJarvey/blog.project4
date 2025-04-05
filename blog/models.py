@@ -62,7 +62,10 @@ class Post(models.Model):
         related_name="blog_posts",
     )
     category = models.ForeignKey(
-        Category, on_delete=models.SET_NULL, null=True, blank=True, related_name="posts"
+        Category, on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="posts"
     )
     body = RichTextField(config_name="default")
     publish = models.DateTimeField(default=timezone.now)
@@ -96,26 +99,33 @@ class Post(models.Model):
                 self.slug,
             ],
         )
+
     def clean(self):
         # Ensure slug is unique for the publish date
         if not self.slug:
             self.slug = slugify(self.title)
-            
+
         if Post.objects.filter(
             slug=self.slug,
             publish__year=self.publish.year,
             publish__month=self.publish.month,
             publish__day=self.publish.day
         ).exclude(id=self.id).exists():
-            raise ValidationError("A post with this title already exists for this date.")
-    
+            raise ValidationError(
+                "A post with this title already exists for this date."
+                )
+
     def save(self, *args, **kwargs):
         self.full_clean()
         super().save(*args, **kwargs)
 
 
 class Comment(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
+    post = models.ForeignKey(
+        Post,
+        on_delete=models.CASCADE,
+        related_name="comments"
+        )
     name = models.CharField(max_length=80)
     email = models.EmailField()
     body = models.TextField()

@@ -3,7 +3,11 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.views.decorators.http import require_POST
 from django.core.mail import send_mail
 from django.db.models import Count
-from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+from django.contrib.postgres.search import (
+    SearchVector,
+    SearchQuery,
+    SearchRank,
+)
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -34,8 +38,12 @@ def post_comment(request, post_id):
         messages.success(request, "Comment posted successfully!")
         return redirect(post.get_absolute_url())
     else:
-        messages.error(request, "Error in comment submission. Please check your input.")
-    return render(request, "blog/post/comment.html", {"post": post, "form": form})
+        messages.error(
+            request, "Error in comment submission. Please check your input."
+        )
+    return render(
+        request, "blog/post/comment.html", {"post": post, "form": form}
+        )
 
 
 @login_required
@@ -47,7 +55,11 @@ def toggle_comment_status(request, comment_id):
         comment.save()
         messages.success(
             request,
-            f"Comment {'activated' if comment.active else 'deactivated'} successfully!",
+            message=(
+                f"Comment "
+                f"{'activated' if comment.active else 'deactivated'} "
+                f"successfully!"
+            )
         )
     else:
         raise PermissionDenied("You are not allowed to moderate this comment.")
@@ -73,11 +85,12 @@ def post_list_with_categories(request, tag_slug=None):
     elif filter_option == "date":
         posts_list = posts_list.order_by("publish")
     elif filter_option == "trending":
-        posts_list = posts_list.annotate(comment_count=Count("comments")).order_by(
+        posts_list = posts_list.annotate(
+            comment_count=Count("comments")
+        ).order_by(
             "-comment_count"
         )
-    else:
-        posts_list = posts_list.order_by("-publish")
+    posts_list = posts_list.order_by("-publish")
 
     paginator = Paginator(posts_list, 3)
     page_number = request.GET.get("page", 1)
@@ -140,14 +153,18 @@ def post_share(request, post_id):
         if form.is_valid():
             cd = form.cleaned_data
             post_url = request.build_absolute_uri(post.get_absolute_url())
-            subject = f"{cd['name']} ({cd['email']}) recommends you read {post.title}"
-            message = f"Read {post.title} at {post_url}\n\n{cd['name']}'s comments: {cd['comments']}"
+            recommender_info = f"{cd['name']} ({cd['email']})"
+            subject = f"{recommender_info} recommends you read {post.title}"
+            recommendation_intro = f"Read {post.title} at {post_url}\n\n"
+            comments_section = f"{cd['name']}'s comments: {cd['comments']}"
+            message = recommendation_intro + comments_section
             send_mail(subject, message, None, [cd["to"]])
             sent = True
     else:
         form = EmailPostForm()
     return render(
-        request, "blog/post/share.html", {"post": post, "form": form, "sent": sent}
+        request,
+        "blog/post/share.html", {"post": post, "form": form, "sent": sent}
     )
 
 
@@ -166,7 +183,8 @@ def post_search(request):
             search_query = SearchQuery(query)
             results = (
                 Post.published.annotate(
-                    search=search_vector, rank=SearchRank(search_vector, search_query)
+                    search=search_vector,
+                    rank=SearchRank(search_vector, search_query)
                 )
                 .filter(rank__gte=0.3)
                 .order_by("-rank")
@@ -245,7 +263,9 @@ def post_update(request, post_id):
     else:
         form = PostForm(instance=post)
 
-    return render(request, "blog/post/crud/edit.html", {"form": form, "post": post})
+    return render(
+        request, "blog/post/crud/edit.html", {"form": form, "post": post}
+        )
 
 
 @login_required

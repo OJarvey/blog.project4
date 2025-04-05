@@ -18,7 +18,8 @@ class CommentForm(forms.ModelForm):
 
 class EmailPostForm(forms.Form):
     name = forms.CharField(
-        max_length=25, widget=forms.TextInput(attrs={"placeholder": "Your name"})
+        max_length=25, widget=forms.TextInput(attrs={
+            "placeholder": "Your name"})
     )
     email = forms.EmailField(
         widget=forms.EmailInput(attrs={"placeholder": "Your email"})
@@ -47,7 +48,7 @@ class PostForm(forms.ModelForm):
             "transformation": [
                 {
                     "width": 1870,
-                    "height":1250,
+                    "height": 1250,
                     "crop": "fill",
                     "quality": "auto:eco",
                     "fetch_format": "auto",
@@ -73,14 +74,18 @@ class PostForm(forms.ModelForm):
     def clean_title(self):
         title = self.cleaned_data["title"]
         if len(title) < 3:
-            raise forms.ValidationError("Title must be at least 3 characters long.")
+            raise forms.ValidationError(
+                "Title must be at least 3 characters long."
+                )
 
         qs = Post.objects.filter(title__iexact=title)
         if self.instance.pk:
             qs = qs.exclude(pk=self.instance.pk)
 
         if qs.exists():
-            raise forms.ValidationError("A post with this title already exists.")
+            raise forms.ValidationError(
+                "A post with this title already exists."
+                )
 
         return title
 
@@ -90,7 +95,7 @@ class PostForm(forms.ModelForm):
         text_content = soup.get_text(strip=True)
         if len(text_content) < 10:
             raise forms.ValidationError(
-                "Post body must contain at least 10 characters of visible text."
+                "Post body must contain at least 10 characters of text."
             )
         return body
 
