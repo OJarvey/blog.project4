@@ -222,13 +222,19 @@ def post_update(request, post_id):
             updated_post = form.save(commit=False)
             updated_post.slug = slugify(updated_post.title)
 
-            if "featured_image" in request.FILES:
+            remove_image = request.POST.get("featured_image-clear", False)
+            new_image = form.cleaned_data.get("featured_image")
+
+            if remove_image:
                 if post.featured_image:
                     try:
                         destroy(post.featured_image.public_id)
                     except Exception as e:
                         print("Failed to delete old image:", e)
-                updated_post.featured_image = request.FILES["featured_image"]
+                updated_post.featured_image = None
+
+            if new_image:
+                updated_post.featured_image = new_image
 
             updated_post.save()
             form.save_m2m()
