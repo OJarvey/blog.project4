@@ -879,7 +879,7 @@ nav li {
         z-index: 1000;
         padding: 60px 1rem 2rem;
         box-sizing: border-box;
-        -webkit-overflow-scrolling: touch;
+        min-height: 100vh;
         min-height: -webkit-fill-available;
       }
 
