@@ -77,7 +77,7 @@ h2 a:hover {
 }
 
 p.date {
-    color: #d39c24;
+    color: #fff;
     font-family: georgia, serif;
     font-size: 12px;
     font-style: italic;
@@ -745,7 +745,7 @@ nav li {
     font-weight: 400;
     margin: 40px 0;
     font-weight: bold;
-    color: #d39c24;
+    color: #fff;
 }
 
 /* Mobile: Max 600px */
