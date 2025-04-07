@@ -74,3 +74,19 @@ document.addEventListener('DOMContentLoaded', function () {
       this.textContent = `${isVisible ? 'Show' : 'Hide'} Likers (${likersList.querySelectorAll('li').length})`
     }
   })
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const deleteForms = document.querySelectorAll(".delete-comment-form");
+  
+    deleteForms.forEach((form) => {
+      form.addEventListener("submit", function (e) {
+        const confirmed = confirm(
+          "Are you sure you want to delete this comment?"
+        );
+        if (!confirmed) {
+          e.preventDefault();
+        }
+      });
+    });
+  });
+  

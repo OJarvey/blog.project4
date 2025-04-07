@@ -594,6 +594,29 @@ nav li {
     color: #70554c;
 }
 
+.delete-comment-form {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    margin: 0;
+}
+
+.delete-icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 5px;
+    padding: 4px;
+    transition: transform 0.2s ease;
+}
+
+.delete-icon-btn i.fa-trash {
+    font-size: 0.7rem;
+    margin: 0;
+    padding: 0;
+  }
+
 /* Fix CKEditor display */
 .cke_chrome {
     border-radius: 8px !important;
