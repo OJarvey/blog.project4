@@ -10,8 +10,6 @@ if os.path.isfile("env.py"):
     import env
 
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "myblog.settings")
-
 load_dotenv()
 
 # Email Settings
