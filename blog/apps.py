@@ -9,6 +9,6 @@ class BlogConfig(AppConfig):
         import blog.signals  # noqa F401
         from django.contrib.sites.models import Site
         Site.objects.filter(id=1).update(
-            name="My Blog",
+            name="Blog Soul",
             domain="127.0.0.1:8000"
         )
