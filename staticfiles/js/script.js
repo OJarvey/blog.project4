@@ -1,3 +1,5 @@
+/* jshint esversion: 6 */
+
 document.addEventListener("DOMContentLoaded", function () {
     // Select the textarea and submit button
     var commentBox = document.querySelector(".form-group textarea");

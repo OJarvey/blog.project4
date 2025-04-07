@@ -266,14 +266,15 @@ def post_update(request, post_id):
     return render(
         request, "blog/post/crud/edit.html", {"form": form, "post": post}
         )
-    
+
+
 @login_required
 @require_POST
 def delete_comment(request, comment_id):
     comment = get_object_or_404(Comment, id=comment_id)
     if request.user.username != comment.name and not request.user.is_staff:
         raise PermissionDenied("You can't delete this comment.")
-    
+
     comment.delete()
     messages.success(request, "Your comment has been deleted.")
     return redirect(comment.post.get_absolute_url())
