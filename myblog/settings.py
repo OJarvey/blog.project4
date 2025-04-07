@@ -4,6 +4,7 @@ import dj_database_url
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+from dotenv import load_dotenv
 
 if os.path.isfile("env.py"):
     import env
@@ -11,8 +12,10 @@ if os.path.isfile("env.py"):
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "myblog.settings")
 
+load_dotenv()
 
 # Email Settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
