@@ -21,6 +21,7 @@ A fully responsive blog website built with Django. This project supports user au
   - [Surface](#surface)
 - [Features](#features)
 - [Technologies Used](#technologies-used)
+- [Setup and Installation](#setup-and-installation)
 - [Testing](#testing)
 - [Known Bugs & Fixes](#known-bugs--fixes)
 - [Deployment](#deployment)
@@ -63,7 +64,15 @@ This project was developed using the Agile methodology. All epics and user stori
 
 The board can be viewed [here](https://github.com/users/OJarvey/projects/5)
 
-![Agile development board](documentation/agile/agile.png)
+<details>
+
+<summary> Agile development board </summary>
+
+<img src="documentation/agile/agile.png" alt="Agile" width="600">
+
+<br>
+
+</details>
 
 Key development included:
 1. **Base Setup**: Project structure, database models, initial styling
@@ -88,7 +97,15 @@ The website structure is designed to make navigation intuitive and efficient for
 
 The application uses the following database models:
 
-![Database Diagram](documentation/view/graphviz.png)
+<details>
+
+<summary> Database Diagram </summary>
+
+<img src="documentation/view/graphviz.png" alt="Diagram" width="800">
+
+<br>
+
+</details>
 
 ### Skeleton
 
@@ -172,8 +189,11 @@ Wireframes for both mobile and desktop versions were created using Balsamiq.
      ![Select Filter](documentation/buttons/select-filter.png)
 
    - **Sidebar Navigation**: Access all site sections
-
-     ![Sidebar](documentation/view/sidebar.png)
+      <details>
+          <summary> Sidebar </summary>
+          <img src="documentation/view/sidebar.png" alt="Sidebar" width="500">
+          <br>
+      </details>
 
 ### Potential Future Features
 
@@ -207,6 +227,141 @@ Wireframes for both mobile and desktop versions were created using Balsamiq.
 - Whitenoise
 - Psycopg2
 
+## Setup and Installation
+
+### Prerequisites
+- Python 3.8+
+- pip
+- Git
+
+### Local Development Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/OJarvey/blog.project4.git
+   cd blog.project4
+   ```
+
+2. **Create a virtual environment**
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+
+3. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Set up environment variables**
+   Create a `.env` file in your project root with:
+   ```
+   SECRET_KEY=your-django-secret-key
+   DATABASE_URL=your-database-url
+   CLOUDINARY_URL=your-cloudinary-url
+   EMAIL_HOST_USER=your-email@example.com
+   EMAIL_HOST_PASSWORD=your-app-password
+   DEFAULT_FROM_EMAIL="Soul Blog <your-email@example.com>"
+   DEVELOPMENT=True
+   ```
+
+5. **Run migrations**
+   ```bash
+   python manage.py makemigrations
+   python manage.py migrate
+   ```
+
+6. **Create a superuser**
+   ```bash
+   python manage.py createsuperuser
+   ```
+
+7. **Run the development server**
+   ```bash
+   python manage.py runserver
+   ```
+
+## 🚀 Project Deployment: Heroku
+
+### 1. Initial Setup on Heroku
+1. Sign in to [Heroku](https://www.heroku.com/).
+2. Click **New > Create New App**.
+3. Name your app (e.g., `soul-blog`).
+4. Choose a region and click **Create app**.
+
+### 2. Set Up PostgreSQL
+1. Navigate to the **Resources** tab.
+2. Add **Heroku Postgres** from the Add-ons section.
+3. Go to **Settings > Config Vars**, and copy the `DATABASE_URL`.
+
+### 3. Configure Environment Variables in Heroku
+Add the following Config Vars under **Settings**:
+- `SECRET_KEY`: your Django secret key
+- `DATABASE_URL`: your Postgres database URL (added automatically)
+- `CLOUDINARY_URL`: your Cloudinary URL
+- `EMAIL_HOST_USER`: your email for sending notifications
+- `EMAIL_HOST_PASSWORD`: your email app password
+- `DEFAULT_FROM_EMAIL`: "Soul Blog <your-email@example.com>"
+- `DISABLE_COLLECTSTATIC`: 1 (only for initial deployment)
+
+### 4. Install and Configure Cloudinary
+1. Sign up or log into [Cloudinary](https://cloudinary.com/).
+2. Copy your `CLOUDINARY_URL` and add it to Heroku Config Vars.
+3. Make sure you have installed the packages:
+   ```bash
+   pip install django-cloudinary-storage cloudinary
+   ```
+
+### 5. Final Project Configurations
+
+**Create a Procfile**
+Create a file named `Procfile` (no extension) in your root directory:
+```
+web: gunicorn myblog.wsgi
+```
+
+**Update settings.py**
+Make sure your `settings.py` includes:
+```python
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / 'blog/static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+CLOUDINARY_URL = os.environ.get("CLOUDINARY_URL")
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'your-heroku-app.herokuapp.com',
+]
+TEMPLATES = [
+    {
+        ...
+        "DIRS": [BASE_DIR / "blog/templates"],
+        ...
+    }
+]
+```
+
+### 6. Deploy to Heroku
+1. Push your project to GitHub.
+2. In Heroku → Deploy tab → Connect your GitHub repo.
+3. Deploy the main branch manually or enable automatic deploys.
+
+### 7. Run Migrations and Collect Static Files
+In your terminal:
+```bash
+heroku run python manage.py migrate
+heroku run python manage.py createsuperuser
+heroku run python manage.py collectstatic --noinput
+```
+
+### 8. Remove the DISABLE_COLLECTSTATIC Variable
+Once your first deployment is successful, go back to Config Vars and remove the `DISABLE_COLLECTSTATIC` variable.
+
+### 9. Access Your Application
+Your application should now be available at `https://your-app-name.herokuapp.com`
+
 ## Testing
 
 Extensive manual and automated testing was conducted for all features, ensuring robustness and usability.
@@ -214,26 +369,46 @@ Extensive manual and automated testing was conducted for all features, ensuring 
 ### Validation Results
 
 - **HTML Validation**: All pages pass W3C validation
-
-  ![HTML Validation](documentation/validation/html-validation.png)
+      <details>
+          <summary> HTML Validation </summary>
+          <img src="documentation/validation/html-validation.png" alt="Validation" width="800">
+          <br>
+      </details>
 
 - **CSS Validation**: Stylesheet passes Jigsaw validation
-
-  ![CSS Validation](documentation/validation/css-validation.png)
+      <details>
+          <summary> CSS Validation </summary>
+          <img src="documentation/validation/css-validation.png" alt="Validation" width="800">
+          <br>
+      </details>
 
 - **JavaScript Validation**: JS files pass JSHint validation
+      <details>
+          <summary> Script JSHint Validation </summary>
+          <img src="documentation/validation/script-jshint-validation.png" alt="Validation" width="900">
+          <br>
+      </details>
 
-  ![Script JSHint Validation](documentation/validation/script-jshint-validation.png)
-
-  ![Likes JSHint Validation](documentation/validation/likes-jshint-validation.png)
+    <details>
+        <summary> Likes JSHint Validation </summary>
+        <img src="documentation/validation/likes-jshint-validation.png" alt="Validation" width="900">
+        <br>
+    </details>
 
 - **Python Validation**: Code passes PEP8 standards
-
-  ![Python Linter Testing](documentation/validation/pythonlintertesting.png)
+      <details>
+        <summary> Python Linter Testing </summary>
+        <img src="documentation/validation/pythonlintertesting.png" alt="Testing" width="900">
+        <br>
+    </details>
 
 - **Lighthouse Testing**: Strong performance metrics
 
-  ![Lighthouse Test](documentation/validation/lighthousetest.png)
+    <details>
+        <summary> Lighthouse Test </summary>
+        <img src="documentation/validation/lighthousetest.png" alt="Testing" width="900">
+        <br>
+    </details>
 
 ## Known Bugs & Fixes
 
@@ -249,23 +424,22 @@ Extensive manual and automated testing was conducted for all features, ensuring 
 
 ## Deployment
 
-### Setting up the Database
-1. Initialize and migrate the database using Django's migration tools:
-   ```
-   python manage.py makemigrations
-   python manage.py migrate
-   ```
+This site is deployed via Heroku with PostgreSQL database, Cloudinary for media storage, and Whitenoise for static files.
 
-### Heroku Deployment
-1. Create a Heroku app and connect the GitHub repository
-2. Add environment variables for database connection and secret keys
-3. Deploy from the main branch
+For deployment steps, see the [Setup and Installation](#setup-and-installation) section above.
 
 ### Fork the Repository
-Follow the GitHub fork instructions to create a personal copy of the repository.
+To create your own copy of this project:
+1. Log in to GitHub and navigate to the [Blog Soul repository](https://github.com/OJarvey/blog.project4.git)
+2. Click the "Fork" button in the top right corner of the page
+3. Make your desired changes to your copy of the repository
 
 ### Clone the Repository
-Use the `git clone` command to download the repository to your local machine.
+To create a local copy on your machine:
+```bash
+git clone https://github.com/OJarvey/blog.project4.git
+cd blog.project4
+```
 
 ## Credits
 
@@ -285,7 +459,7 @@ Use the `git clone` command to download the repository to your local machine.
 <img src="documentation/view/mainpageview.png" alt="Main Page View" width="600">
 <br>
 
-*Main page view on desktop showing the blog posts layout (Width: 600px)*
+*Main page view on desktop showing the blog posts layout*
 
 <img src="documentation/view/mainpageview-mobile.png" alt="Main Page View Mobile" width="600">
 <br>
