@@ -1,563 +1,352 @@
 # Blog Soul
 
-![Screenshot of the blog](readme_img/screenshot-2024-12-29.png)
+![Screenshot of the blog](documentation/responsiveness/amiresponsive.png)
 
 A fully responsive blog website built with Django. This project supports user authentication, dynamic content, and searching with trigram similarity.
 
+- **Responsive Design Testing**: Site performs well across devices
+
+**🔗 Live Site:** [Soul Blog](https://blog-project4-fcfadc1fce94.herokuapp.com/blog/)  
+**📁 Repository:** [GitHub Repo](https://github.com/OJarvey/blog.project4.git)
+
+## Table of Contents
+- [Overview](#overview)
+- [User Experience (UX)](#user-experience-ux)
+  - [Strategy](#strategy)
+  - [Scope](#scope)
+  - [Agile Development](#agile-development)
+  - [Structure](#structure)
+  - [Database Schema](#database-schema)
+  - [Skeleton](#skeleton)
+  - [Surface](#surface)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Testing](#testing)
+- [Known Bugs & Fixes](#known-bugs--fixes)
+- [Deployment](#deployment)
+- [Credits](#credits)
+- [Screenshots](#screenshots)
+
 ## Overview
 
-This project is a blogging platform that enables users to create, edit, and delete blog posts. Visitors can view posts and search for specific content, Users can register, log in, and manage their own posts.
+Blog Soul is a blogging platform that enables users to create, edit, and delete blog posts. Visitors can view posts and search for specific content. Users can register, log in, and manage their own posts.
 
-## UX
+## User Experience (UX)
 
-This site was designed with the Five Planes of UX methodology.
+This site was designed using the Five Planes of UX methodology.
 
 ### Strategy
 
 **Goal:** Create an intuitive, responsive, and feature-rich blogging platform for users to share and discover content.
 
 **Objectives:**
-
-- Provide user-friendly interfaces for browsing and managing posts.
-- Implement robust search functionality to improve content discovery.
-- Ensure seamless mobile and desktop experiences.
+- Provide user-friendly interfaces for browsing and managing posts
+- Ensure seamless mobile and desktop experiences
 
 ### Scope
 
 **User Features:**
+- Responsive layout across devices
+- CRUD functionality for blog posts
+- Authentication and account management
+- Search functionality with trigram similarity
 
-- Responsive layout across devices.
-- CRUD functionality for blog posts.
-- Authentication and account management.
-- Search functionality with trigram similarity.
-
-Only owners of a data instance can access any CRUD functionality related to it. All get requests returning a list will only return items for which the user is the owner. Any requests for a specific item that the user doesn't own will be denied.
+Only owners of a data instance can access CRUD functionality related to it. All GET requests returning a list will only return items for which the user is the owner. Any requests for a specific item that the user doesn't own will be denied.
 
 **Admin Features:**
+- Manage user posts
+- View and delete inappropriate content from the admin
 
-- Manage user posts.
-- View and delete inappropriate content.
+### Agile Development
 
-### Agile Methodology
+This project was developed using the Agile methodology. All epics and user stories implementation progress was tracked using GitHub's Kanban board, moving items from **ToDo**, to **In Progress**, **Done** and **Not Implemented** lists.
 
-This project was developed using the Agile methodology.  
-All epics and user stories implementation progress was registered using [GitHub](https://github.com/). As the user stories were accomplished, they were moved in the GitHub Kanban board from **ToDo**, to **In Progress**, **Done** and **Not Implemented** lists.
 The board can be viewed [here](https://github.com/users/OJarvey/projects/5)
 
-![agile](readme_img/agile.png)
+![Agile development board](documentation/agile/agile.png)
 
-### Sprint 1: Base Setup
-
-| EPIC          | User Story               | Description                                                                                                                               |
-| :------------ | :----------------------- | :---------------------------------------------------------------------------------------------------------------------------------------- |
-| Project Setup | Project setup            | As a developer, I need to set up the project so that it is ready for implementing the core features.                                      |
-| Deployment    | PostgreSQL               | As a developer, I need the PostgreSQL information provided by Code Institute to link the database to the project.                               |
-| Deployment    | Heroku                   | As a developer I need to deploy the finished project to Heroku so that it can be accessed by everyone.                                    |
-| Project Setup | File structure           | As a developer I need to set up the file structure in the project so that all the files can be accessed and created in the correct place.|
-| Project Setup | Database models          | As a developer I need to create the database models so that the can be used by the app.                                                   |
-| Project Setup | Link CSS, JS & Bootstrap | As a developer I can link up Bootstrap and custom CSS & JavaScript into base.html so the site can be styled.                          |
-| Project Setup | base.html                | As a developer I need to create the base.html page and structure so that other pages can use the layout.                                  |
-| Project Setup | Google Fonts             | As a developer I can link in google fonts so that the site can have custom fonts.                                                         |
-| UX            | Favicon                  | As a developer I can add a favicon so the user can see the site logo easily in the web browser. |
-
-### Sprint 2: Navigation & Account Creation
-
-| EPIC           | User Story             | Description                                                                                                              |
-| :------------- | :--------------------- | :----------------------------------------------------------------------------------------------------------------------- |
-| Navigation     | Navbar                 | As a developer, I need to create a navbar so that users can navigate the site.                                            |
-| CRUD           | View Blog Posts | As a user, I can see all the available blog posts so that I can read and interact with content.                          |
-| Navigation     | Icon                  | As a developer I need to create a way for users to go home and to create new post from anywhere on the website.                         |
-| UX             | Whitenoise             | As a developer, I need to set up Whitenoise so that my static files can be served in deployment.                           |
-| Authentication | Add email address      | As a site user, I can supply my email address so that I will receive notifications about my posts or comments.                    |
-| Authentication | Create Account         | As a site user, I can create an account so that I can log in and create or interact with blog posts.                                        |
-| Authentication | allauth                | As a developer, I need to implement Flask-Login so that users can securely sign up and log in.          |
-| Authentication | Login                  | As a site user, I can log in to my account so that I can view my posts, create new ones, or update existing ones. |
-
-### Sprint 3: Styling and Enhancements
-
-| EPIC | User Story      | Description                                                                                                                                     |
-| :--- | :-------------- | :---------------------------------------------------------------------------------------------------------------------------------------------- |
-| CRUD | Create Blog Post  | As a logged-in user, I can create a blog post so that I can share my thoughts and ideas.                                                                           |
-| UX   | View Blog Posts    | As a site user, I can view a list of the latest blog posts with excerpts and images so that I can decide which posts to read fully. |
-| UX   | Style Authentication | As a site owner, I want to style the login and registration pages so that they match the overall aesthetic of the website. |
-
-### Sprint 3: Styling
-
-| EPIC | User Story      | Description                                                                                                                                     |
-| :--- | :-------------- | :---------------------------------------------------------------------------------------------------------------------------------------------- |
-| CRUD | Create Blog Post  | As a logged-in user, I can create a blog post so that I can share my thoughts and ideas.                                                                           |
-| UX   | View Blog Posts    | As a site user, I can view a list of the latest blog posts with excerpts and images so that I can decide which posts to read fully. |
-| UX   | Style Authentication| As a site owner, I want to style the login and registration pages so that they match the overall aesthetic of the website.   |
-| UX   | Homepage Styling    | As a user, I want a visually appealing homepage so that I can easily find featured posts and navigate the site effectively.|  
-| UX   | Contact Section | As a user, I can find a contact section with email and social media links so that I can easily reach out for inquiries or feedback. |
-
-### Sprint 3: Sprint 4: CRUD
-
-| EPIC       | User Story         | Description                                                                                                                                                     |
-| :--------- | :----------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| CRUD       | Delete Post     | As a logged-in user, I can delete a blog post so that I can remove content I no longer want to share.                                                           |
-| CRUD       | Admin CRUD         | As a site admin, I want to be able to create, edit, delete, and view blog posts from all users so that I can manage the content effectively.                        |
-| CRUD       | Update Post        | As a logged-in user, I can update my blog posts so that I can make edits and keep my content accurate.|
-| Validation | Post Validation | As a user, I cannot submit invalid or incomplete posts so that the content on the blog maintains quality and relevance.|
+Key development included:
+1. **Base Setup**: Project structure, database models, initial styling
+2. **Navigation & Authentication**: Navbar, login/registration
+3. **Styling and UI**: Homepage design, post styling, visual elements
+4. **CRUD Operations**: Post creation, editing, deletion functionality
 
 ### Structure
 
 The website structure is designed to make navigation intuitive and efficient for users.
 
+**Navigation:**
+- Main Navigation: Includes links to Home, Login/Logout, and Create Post
+
+**Key Pages:**
+- Home Page: Displays a list of blog posts with filtering and search options
+- Post Detail Page: Shows the full content of a blog post with comments
+- Admin Dashboard: Admin-only view for managing posts and users
+- User Account Page: Lists user-specific posts with edit/delete options
+
 ### Database Schema
 
-Users Table
+The application uses the following database models:
 
-| Column Name     | User Story         | Data Type                                                                                                                                                     |
-| :--------- | :----------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|id |SERIAL | PRIMARY KEY|
-|username| VARCHAR(50) | UNIQUE, NOT NULL |
-|email| VARCHAR(100)| UNIQUE, NOT NULL|
-|password_hash| TEXT | NOT NULL |
-|created_at| TIMESTAMP | DEFAULT CURRENT_TIMESTAMP |
-|is_admin |BOOLEAN |DEFAULT FALSE|
-| Validation | Post Validation | Ensures posts meet quality standards |
-
-Posts Table
-Stores blog posts.
-
-| Column Name | Data Type   | Constraints                        |
-|-------------|-------------|------------------------------------|
-| id          | SERIAL      | PRIMARY KEY                        |
-| title       | VARCHAR(200)| NOT NULL                           |
-| content     | TEXT        | NOT NULL                           |
-| created_at  | TIMESTAMP   | DEFAULT CURRENT_TIMESTAMP          |
-| updated_at  | TIMESTAMP   | DEFAULT CURRENT_TIMESTAMP          |
-| author_id   | INT         | FOREIGN KEY (Users.id), NOT NULL   |
-
-Comments Table
-Stores comments on blog posts.
-
-| Column Name | Data Type   | Constraints                        |
-|-------------|-------------|------------------------------------|
-| id          | SERIAL      | PRIMARY KEY                        |
-| post_id     | INT         | FOREIGN KEY (Posts.id), NOT NULL   |
-| author_id   | INT         | FOREIGN KEY (Users.id), NOT NULL   |
-| content     | TEXT        | NOT NULL                           |
-| created_at  | TIMESTAMP   | DEFAULT CURRENT_TIMESTAMP          |
-
-Tags Table
-Stores tags for categorizing posts.
-
-| Column Name | Data Type   | Constraints                        |
-|-------------|-------------|------------------------------------|
-| id          | SERIAL      | PRIMARY KEY                        |
-| name        | VARCHAR(50) | UNIQUE, NOT NULL                   |
-
-Post_Tags Table
-Many-to-many relationship between posts and tags.
-
-| Column Name | Data Type   | Constraints                        |
-|-------------|-------------|------------------------------------|
-| id          | SERIAL      | PRIMARY KEY                        |
-| post_id     | INT         | FOREIGN KEY (Posts.id), NOT NULL   |
-| tag_id      | INT         | FOREIGN KEY (Tags.id), NOT NULL    |
-
-**Navigation:**
-
-- Main Navigation: Includes links to Home, About, Login/Logout, and Create Post.
-
-**Home Page:**
-
-- Displays a list of blog posts with options to filter and search.
-- Pagination for easier navigation through posts.
-
-**Post Detail Page:**
-
-- Shows the full content of a blog post.
-- Includes comments section for user interaction.
-
-**Admin Dashboard:**
-
-- Admin-only view for managing posts and users.
-
-**User Account Page:**
-
-- Lists user-specific posts with options to edit or delete.
-
-**Sitemap:**
-
-- A visual sitemap was created to plan the site’s structure and navigation paths.
+![Database Diagram](documentation/view/graphviz.png)
 
 ### Skeleton
 
 **Wireframes:**
-
-- Wireframes for both mobile and desktop versions were created using Balsamiq.
+Wireframes for both mobile and desktop versions were created using Balsamiq.
 
 ### Surface
 
 **Color Scheme and Fonts:**
-
-- Colors: Shades of brown, blue, orange, and gray for a professional look.
-- Fonts: Google Fonts - Roboto for body text and Montserrat for headings.
+- Colors: Shades of brown and gray for a earthy look.
+- Fonts: Google Fonts - Roboto for body text and Montserrat for headings
 
 **Visual Effects:**
-
-- Smooth hover transitions on buttons and links.
-- Dynamic animations for page transitions.
+- Smooth hover transitions on buttons and links
+- Dynamic animations for page transitions
 
 ## Features
 
 ### Existing Features
 
-- **Create, Read, Update, Delete Posts:** Users can manage their posts through an intuitive interface.
-- **Advanced Search:** Trigram-based search for precise and fast content discovery.
-- **User Authentication:** Secure registration and login system.
-- **Responsive Design:** Optimized for all screen sizes using Materialize CSS.
+- **Post Management**: Users can create, read, update, and delete their own posts
+- **Advanced Search**: Trigram-based search for precise and fast content discovery
+- **User Authentication**: Secure registration and login system
+- **Responsive Design**: Optimized for all screen sizes
+- **Like System**: Users can like posts and view like counts
+- **Comment System**: Users can add and delete comments on posts
+- **Share Functionality**: Posts can be shared via social media
+
+#### Navigation and UI Elements
+
+1. **Main Navigation**
+   - **Home Button**: Quick navigation to the home page
+
+     ![Home Button](documentation/buttons/home.png)
+
+   - **Menu Sidebar Button**: Access to site navigation options
+
+     ![Menu Sidebar Button](documentation/buttons/menu-sidebar-button.png)
+
+   - **Search Icon**: Opens search functionality
+
+     ![Search Icon](documentation/buttons/search-icon.png)
+
+2. **User Actions**
+   - **Register/Login Button**: Entry point for user authentication
+
+     ![Register/Login Button](documentation/buttons/register-login-button.png)
+
+   - **Create Post Button**: Quick access to post creation
+
+     ![Create Post Button](documentation/buttons/new-create.png)
+
+   - **Logged Status Indicator**: Shows current user authentication status
+
+     ![Logged Status](documentation/view/logged-status.png)
+
+3. **Content Interaction**
+   - **Like Button**: Allows users to like posts
+
+     ![Like Button](documentation/buttons/likebutton.png)
+
+   - **Show Likes View**: Displays number of likes on a post
+
+     ![Show Likes View](documentation/buttons/showlikesview.png)
+
+   - **Share Post Icon**: Opens sharing options for posts
+
+     ![Share Post Icon](documentation/buttons/sharepost-icon.png)
+
+   - **Comment Management**: Users can delete their own comments
+
+     ![Comment Delete Button](documentation/buttons/comment-delete-button.png)
+
+4. **Content Navigation**
+   - **Pagination**: Navigate through multiple pages of content
+
+     ![Pagination Button](documentation/buttons/paginationbutton.png)
+
+   - **Content Filtering**: Filter content by category or tags
+
+     ![Select Filter](documentation/buttons/select-filter.png)
+
+   - **Sidebar Navigation**: Access all site sections
+
+     ![Sidebar](documentation/view/sidebar.png)
 
 ### Potential Future Features
 
-- Add a like and share functionality for posts.
-- Enable user comments with moderation.
-- Include categories and tags for better content organization.
+- Enhanced user profile management
+- Categories and tags for better content organization
+- Newsletter subscription
+- Advanced analytics for post authors
 
-## Responsive Layout and Design
+## Technologies Used
 
-The site was tested on multiple devices, ensuring consistency in layout and functionality across different screen sizes.
-
-## Tools Used
-
-- [GitHub](https://github.com/) for hosting the source code of the program and version control
-- [VS Code](https://code.visualstudio.com/) for writing and testing the code
-- [Heroku](https://dashboard.heroku.com/) used for deploying the project
-- [Balsamiq](https://balsamiq.com/wireframes/) for creating the wireframes
-- [Favicon.io](https://favicon.io/) for favicon
-- [Font Awesome](https://fontawesome.com/) for the site's icons
-- [Google Fonts](https://fonts.google.com/) for the typography
-- [Code Institute Pylint](https://pep8ci.herokuapp.com/) for validating the python code
-- [HTML - W3C HTML Validator](https://validator.w3.org/#validate_by_uri+with_options) for validating the HTML
-- [CSS - Jigsaw CSS Validator](https://jigsaw.w3.org/css-validator/#validate_by_uri) for validating the CSS
-- [Chrome Dev Tools](https://developer.chrome.com/docs/devtools/) for debugging the project
-- [Chrome LightHouse extension](https://developer.chrome.com/docs/lighthouse/overview/) for testing performance
-
-**Development Tools:**
-
-- Flask: Backend framework.
-- SQLAlchemy: ORM for database operations.
-- Materialize CSS: Frontend styling.
-- Heroku: Deployment.
-
-**Python packages:**
-
-- Flask-WTF: For form validation.
-- Flask-Login: User authentication.
-- Psycopg2: PostgreSQL adapter.
+- **Frontend**: HTML, CSS, JavaScript, Bootstrap
+- **Backend**: Django
+- **Database**: PostgreSQL
+- **Development Tools**:
+  - [GitHub](https://github.com/) for version control
+  - [VS Code](https://code.visualstudio.com/) for development
+  - [Heroku](https://dashboard.heroku.com/) for deployment
+  - [Balsamiq](https://balsamiq.com/wireframes/) for wireframes
+  - [Favicon.io](https://favicon.io/) for favicon creation
+  - [Font Awesome](https://fontawesome.com/) for icons
+  - [Google Fonts](https://fonts.google.com/) for typography
+  - [GraphViz](https://graphviz.org/) for creating architecture diagrams
+  - [Code Institute Pylint](https://pep8ci.herokuapp.com/) for Python validation
+  - [W3C HTML Validator](https://validator.w3.org/) for HTML validation
+  - [Jigsaw CSS Validator](https://jigsaw.w3.org/css-validator/) for CSS validation
+  - [Chrome Dev Tools](https://developer.chrome.com/docs/devtools/) for debugging
+  - [Chrome Lighthouse](https://developer.chrome.com/docs/lighthouse/overview/) for performance testing
+  
+**Python Packages**:
+- Django
+- Whitenoise
+- Psycopg2
 
 ## Testing
 
 Extensive manual and automated testing was conducted for all features, ensuring robustness and usability.
 
-Tests were written using Django's test suite and can be found in the following locations:
+### Validation Results
 
-- blog\tests.py
+- **HTML Validation**: All pages pass W3C validation
 
-## Bugs
+  ![HTML Validation](documentation/validation/html-validation.png)
 
-### Broken CSS on Deployment
+- **CSS Validation**: Stylesheet passes Jigsaw validation
 
-**Description:** The website's styles were not loading correctly after deploying to Heroku. The pages appeared unstyled.
+  ![CSS Validation](documentation/validation/css-validation.png)
 
-**Cause:** Missing static file collection during deployment and incorrect Whitenoise configuration.
+- **JavaScript Validation**: JS files pass JSHint validation
 
-**Fix:**
+  ![Script JSHint Validation](documentation/validation/script-jshint-validation.png)
 
-- Installed Whitenoise:
+  ![Likes JSHint Validation](documentation/validation/likes-jshint-validation.png)
 
-  pip install whitenoise
+- **Python Validation**: Code passes PEP8 standards
 
-- Updated MIDDLEWARE in settings.py:
+  ![Python Linter Testing](documentation/validation/pythonlintertesting.png)
 
-  ```python
-  MIDDLEWARE = [
-      'django.middleware.security.SecurityMiddleware',
-      'whitenoise.middleware.WhiteNoiseMiddleware',
-      ...
-  ]
-  ```
+- **Lighthouse Testing**: Strong performance metrics
 
-Ran collectstatic command:
+  ![Lighthouse Test](documentation/validation/lighthousetest.png)
 
-python manage.py collectstatic
+## Known Bugs & Fixes
 
-- Updated MIDDLEWARE in settings.py:
-
-  ```python
-  MIDDLEWARE = [
-      'django.middleware.security.SecurityMiddleware',
-      'whitenoise.middleware.WhiteNoiseMiddleware',
-      ...
-  ]
-
-Ran collectstatic command:
-python manage.py collectstatic
-
-### 500 Internal Server Error on Post Creation
-
-Description: A 500 error occurred when users attempted to create a post.
-
-Cause: The author_id foreign key was not being set due to a missing user association in the view logic.
-
-Fix:
-
-Modified the view to associate the post with the logged-in user:
-
-post.author_id = request.user.id
-post.save()
-
-1. CREATE EXTENSION pg_trgm;CREATE INDEX post_search_idx ON Posts USING GIN (title gin_trgm_ops, content gin_trgm_ops);next_url = request.GET.get('next', '/')
-return redirect(next_url)python manage.py makemigrations
-python manage.py migrate --fakeSearch Function Not Returning Results
-
-Description: The search feature always returned no results, even for matching terms.
-
-Cause: The trigram similarity index was not applied to the database table.
-
-Fix:
-
-Added the trigram extension to the database:
-
-CREATE EXTENSION pg_trgm;
-
-Created a GIN index on the title and content fields:
-
-CREATE INDEX post_search_idx ON Posts USING GIN (title gin_trgm_ops, content gin_trgm_ops);
-
-### User Not Redirected After Login
-
-Description: After logging in, users were not redirected to the home page but remained on the login page.
-
-Cause: The next parameter was not being used in the login view.
-
-Fix:
-
-Updated the login view to handle the next parameter:
-
-next_url = request.GET.get('next', '/')
-return redirect(next_url)
-
-Database Migration Failing
-
-Description: A migration failed with a duplicate column error after modifying the Posts model.
-
-Cause: The migration was attempting to create a column that already existed due to a prior failed migration.
-
-Fix:
-
-Deleted the problematic migration file.
-
-Ran:
-
-python manage.py makemigrations
-python manage.py migrate --fake
-
-Applied the migration:
-
-python manage.py migrate
-
-### Validation Not Blocking Empty Comments
-
-Description: Users were able to submit empty comments.
-
-Cause: Missing validation in the comments form.
-
-Fix:
-
-Added validation in the form:
-
-if not content.strip():
-    raise ValidationError("Comment cannot be empty.")
-
-### Admin Page Crashing for Large Datasets
-
-Description: The admin panel became unresponsive when handling a large number of posts and users.
-
-Cause: The admin view was querying the database without pagination.
-
-Fix:
-
-Enabled pagination in the admin panel:
-
-list_per_page = 50
-
-### CSRF Token Missing Error
-
-Description: Forms failed to submit due to a CSRF token missing error.
-
-Cause: The {% csrf_token %} tag was missing in some templates.
-
-Fix:
-
-Added {% csrf_token %} to all form templates:
-
-```html
-<form method="POST">
-    {% csrf_token %}
-    ...
-</form>
-```
-
-### Image Upload Not Working
-
-Description: Uploaded images were not displaying on the blog posts.
-
-Cause: Missing configuration for the media files in settings.py.
-
-Fix:
-
-Added media configurations:
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-Updated urls.py to serve media files in development:
-
-from django.conf import settings
-from django.conf.urls.static import static
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-### "Post Not Found" Error on Valid Posts
-
-Description: Clicking on certain blog post links resulted in a "Post Not Found" error.
-
-Cause: Slug generation for the URL was inconsistent due to special characters in titles.
-
-Fix:
-
-Updated the slug generation logic to use slugify:
-
-from django.utils.text import slugify
-post.slug = slugify(post.title)
-post.save()
-
-### Fix TypeError in post_detail View
-
-Description: Resolved a TypeError in the post_detail view where the id field was incorrectly referenced in the get_object_or_404 call.
-
-Cause: Incorrect lookup field used in the view logic.
-
-Fix:
-
-Updated the view to filter posts by slug instead of id to match the expected URL parameters and model fields.
-
-Modified the URL pattern to ensure the post slug is passed correctly to the view.
-
-Verified that the Post model's get_absolute_url method generates accurate URLs for posts based on their slug and publication date.
+| Issue                        | Description                                               | Fix                                                              |
+| ---------------------------- | --------------------------------------------------------- | ---------------------------------------------------------------- |
+| CSS Issues on Deployment     | CSS not loading correctly after deploying to Heroku.      | Installed Whitenoise and updated middleware configuration.       |
+| 500 Error on Post Creation   | Server error when creating posts.                         | Added proper user association in the view logic.                 |
+| Search Function Issues       | Search feature returned no results even for matching terms. | Added trigram extension and proper GIN indexing to the database. |
+| User Redirection After Login | Users not redirected properly after login.                | Updated login view to handle the 'next' parameter.               |
+| CSRF Token Errors            | Forms failed to submit due to missing CSRF tokens.        | Added `{% csrf_token %}` to all form templates.                |
+| Image Upload Problems        | Uploaded images not displaying on blog posts.             | Added proper media configurations in `settings.py`.               |
+| URL Routing Issues           | "Post Not Found" errors on valid posts.                   | Updated slug generation logic using Django's `slugify`.          |
 
 ## Deployment
 
 ### Setting up the Database
-
-1. **Initialize and migrate the database using Flask-Migrate.**
+1. Initialize and migrate the database using Django's migration tools:
+   ```
+   python manage.py makemigrations
+   python manage.py migrate
+   ```
 
 ### Heroku Deployment
-
-1. **Create a Heroku app and connect the GitHub repository.**
-2. **Add environment variables for database connection and secret keys.**
+1. Create a Heroku app and connect the GitHub repository
+2. Add environment variables for database connection and secret keys
+3. Deploy from the main branch
 
 ### Fork the Repository
-
 Follow the GitHub fork instructions to create a personal copy of the repository.
 
 ### Clone the Repository
-
-Use the git clone command to download the repository to your local machine.
+Use the `git clone` command to download the repository to your local machine.
 
 ## Credits
 
 **Code:**
-
-- Flask documentation for route handling.
-- Materialize CSS documentation for frontend components.
-- Django documentation for ORM and views.
-- Flask-Migrate documentation for database migrations.
-- Django 5 booked for setup [here](https://amzn.eu/d/62R6ksJ)
+- Django documentation for ORM and views
+- Bootstrap documentation for frontend components
+- Django 5 book for setup [here](https://amzn.eu/d/62R6ksJ)
 
 **Acknowledgements:**
-
 - Special thanks to mentors and peers who provided valuable feedback and guidance during development.
 
-## Wireframes
+## Screenshots
 
-### Desktop Wireframe
+<details>
+<summary>🖥️ Desktop & Mobile Views</summary>
 
-![Desktop Wireframe](readme_img/wireframe-pc.png)
+<img src="documentation/view/mainpageview.png" alt="Main Page View" width="600">
+<br>
 
-### Mobile Wireframe
+*Main page view on desktop showing the blog posts layout (Width: 600px)*
 
-![Mobile Wireframe](readme_img/wireframe-mobile.png)
+<img src="documentation/view/mainpageview-mobile.png" alt="Main Page View Mobile" width="600">
+<br>
 
-## Website Screenshots
+*Mobile responsive view of the main page*
 
-### Front Page
+<img src="documentation/view/menusidebar-mobile.png" alt="Menu Sidebar Mobile" width="600">
+<br>
 
-![Website Front Page](readme_img/website-front-page.png)
+*Mobile navigation sidebar showing menu options*
 
-### Test Page
+</details>
 
-![Test Page](readme_img/test.png)
+<details>
+<summary>🔑 User Authentication Views</summary>
 
-### Signup Page
+<img src="documentation/view/signup-page.png" alt="Signup Page" width="600">
+<br>
 
-![Signup Page](readme_img/signup-page.png)
+*User registration page*
 
-### Signout Page
+<img src="documentation/view/login-page.png" alt="Login Page" width="600">
+<br>
 
-![Signout Page](readme_img/signout-page.png)
+*User login page*
 
-### Signin Page
+<img src="documentation/view/logout-page.png" alt="Logout Page" width="600">
+<br>
 
-![Signin Page](readme_img/signin-page.png)
+*Logout confirmation page*
 
-### Sidebar
+</details>
 
-![Sidebar](readme_img/sidebar.png)
+<details>
+<summary>🔄 Password Reset Flow</summary>
 
-### Share Post
+<img src="documentation/view/passwordreset-page.png" alt="Password Reset Page" width="600">
+<br>
 
-![Share Post](readme_img/sharepost.png)
+*Password reset request page*
 
-### Search Icon
+<img src="documentation/view/passwordreset-setpassword.png" alt="Password Reset Set Password" width="600">
+<br>
 
-![Search Icon](readme_img/search-icon.png)
+*Password reset form for entering new password*
 
-### Register/Login Button
+<img src="documentation/view/passwordresetdone.png" alt="Password Reset Done" width="600">
+<br>
 
-![Register/Login Button](readme_img/register-login-button.png)
+*Confirmation page after password reset*
 
-### Password Reset
+</details>
 
-![Password Reset](readme_img/password-reset.png)
+<details>
 
-### New Create
+<summary>💬 Content Interaction</summary>
 
-![New Create](readme_img/new-create.png)
+<img src="documentation/view/sharepost.png" alt="Share Post" width="600">
 
-### Logged Status
+<br>
 
-![Logged Status](readme_img/logged-status.png)
+*Share post modal with social media options*
 
-### Linter
-
-![Linter](readme_img/linter.png)
-
-### Lighthouse
-
-![Lighthouse](readme_img/lighthouse.png)
-
-### JS Hint
-
-![JS Hint](readme_img/js-hint.png)
-
-### Home Page
-
-![Home Page](readme_img/home.png)
-
-### Comment Section
-
-![Comment Section](readme_img/comment-section.png)
+</details>
