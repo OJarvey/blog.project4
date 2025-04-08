@@ -18,6 +18,7 @@ A fully responsive blog website built with Django. This project supports user au
   - [Structure](#structure)
   - [Database Schema](#database-schema)
   - [Skeleton](#skeleton)
+  - [Wireframes](#wireframes)
   - [Surface](#surface)
 - [Features](#features)
 - [Technologies Used](#technologies-used)
@@ -65,10 +66,9 @@ This project was developed using the Agile methodology. All epics and user stori
 The board can be viewed [here](https://github.com/users/OJarvey/projects/5)
 
 <details>
+<summary> 📊 Agile development board </summary>
 
-<summary> Agile development board </summary>
-
-<img src="documentation/agile/agile.png" alt="Agile" width="600">
+<img src="documentation/agile/agile.png" alt="Agile" width="900">
 
 <br>
 
@@ -98,10 +98,9 @@ The website structure is designed to make navigation intuitive and efficient for
 The application uses the following database models:
 
 <details>
+<summary> 📝 Database Diagram </summary>
 
-<summary> Database Diagram </summary>
-
-<img src="documentation/view/graphviz.png" alt="Diagram" width="800">
+<img src="documentation/view/graphviz.png" alt="Diagram" width="900">
 
 <br>
 
@@ -109,8 +108,113 @@ The application uses the following database models:
 
 ### Skeleton
 
-**Wireframes:**
-Wireframes for both mobile and desktop versions were created using Balsamiq.
+The skeleton plane focuses on the interface design and navigation structure that brings the information architecture to life. This includes wireframes for both mobile and desktop versions to ensure a consistent user experience across all devices.
+
+### Wireframes
+
+Wireframes for both mobile and desktop versions were created using Balsamiq to plan the layout and user flow of the application.
+
+<details>
+<summary> 🏠 Home Page Wireframes </summary>
+
+**Desktop Home Page**
+
+<img src="documentation/wireframes/home.png" alt="Desktop Home Page" width="500">
+
+**Mobile Home Page**
+
+<img src="documentation/wireframes/home-mobile.png" alt="Mobile Home Page" width="300">
+
+</details>
+
+<details>
+
+<summary> 📝 Post Details Wireframes </summary>
+
+**Desktop Post Details**
+
+<img src="documentation/wireframes/details.png" alt="Desktop Post Details" width="500">
+
+**Mobile Post Details**
+
+<img src="documentation/wireframes/details-mobile.png" alt="Mobile Post Details" width="300">
+
+</details>
+
+<details>
+
+<summary> ✏️ Create Post Wireframes </summary>
+
+**Desktop Create Post**
+
+<img src="documentation/wireframes/create.png" alt="Desktop Create Post" width="500">
+
+**Mobile Create Post**
+
+<img src="documentation/wireframes/create-mobile.png" alt="Mobile Create Post" width="300">
+
+</details>
+
+<details>
+
+<summary> 🔑 Authentication Wireframes </summary>
+
+**Desktop Login**
+
+<img src="documentation/wireframes/login.png" alt="Desktop Login" width="500">
+
+**Mobile Login**
+
+<img src="documentation/wireframes/login-mobile.png" alt="Mobile Login" width="300">
+
+**Desktop Signup**
+
+<img src="documentation/wireframes/signup.png" alt="Desktop Signup" width="500">
+
+**Mobile Signup**
+
+<img src="documentation/wireframes/signup-mobile.png" alt="Mobile Signup" width="300">
+
+**Desktop Logout**
+
+<img src="documentation/wireframes/logout.png" alt="Desktop Logout" width="500">
+
+**Mobile Logout**
+
+<img src="documentation/wireframes/logout-mobile.png" alt="Mobile Logout" width="300">
+</details>
+
+<details>
+
+<summary> 🔄 Password Reset Wireframes </summary>
+
+**Desktop Password Reset**
+
+<img src="documentation/wireframes/password-reset.png" alt="Desktop Password Reset" width="500">
+
+**Mobile Password Reset**
+
+<img src="documentation/wireframes/passwordreset-mobile.png" alt="Mobile Password Reset" width="300">
+
+</details>
+
+<details>
+<summary> 📱 Menu & Share Wireframes </summary>
+
+**Mobile Menu**
+
+<img src="documentation/wireframes/menu-mobile.png" alt="Mobile Menu" width="300">
+
+**Desktop Share**
+
+<img src="documentation/wireframes/share.png" alt="Desktop Share" width="500">
+
+<img src="documentation/wireframes/share_2.png" alt="Desktop Share Alternative" width="500">
+
+**Mobile Share**
+
+<img src="documentation/wireframes/share-mobile.png" alt="Mobile Share" width="300">
+</details>
 
 ### Surface
 
@@ -451,7 +555,7 @@ cd blog.project4
 **Acknowledgements:**
 - Special thanks to mentors and peers who provided valuable feedback and guidance during development.
 
-## Screenshots
+## User View
 
 <details>
 <summary>🖥️ Desktop & Mobile Views</summary>
@@ -461,12 +565,12 @@ cd blog.project4
 
 *Main page view on desktop showing the blog posts layout*
 
-<img src="documentation/view/mainpageview-mobile.png" alt="Main Page View Mobile" width="600">
+<img src="documentation/view/mainpageview-mobile.png" alt="Main Page View Mobile" width="300">
 <br>
 
 *Mobile responsive view of the main page*
 
-<img src="documentation/view/menusidebar-mobile.png" alt="Menu Sidebar Mobile" width="600">
+<img src="documentation/view/menusidebar-mobile.png" alt="Menu Sidebar Mobile" width="300">
 <br>
 
 *Mobile navigation sidebar showing menu options*
@@ -514,11 +618,9 @@ cd blog.project4
 </details>
 
 <details>
-
 <summary>💬 Content Interaction</summary>
 
 <img src="documentation/view/sharepost.png" alt="Share Post" width="600">
-
 <br>
 
 *Share post modal with social media options*
