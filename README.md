@@ -27,7 +27,7 @@ A fully responsive blog website built with Django. This project supports user au
 - [Known Bugs & Fixes](#known-bugs--fixes)
 - [Deployment](#deployment)
 - [Credits](#credits)
-- [Screenshots](#screenshots)
+- [User View](#user-view)
 
 ## Overview
 
@@ -468,7 +468,18 @@ Your application should now be available at `https://your-app-name.herokuapp.com
 
 ## Testing
 
-Extensive manual and automated testing was conducted for all features, ensuring robustness and usability.
+<h3> Both manual and automated testing was carried out across all major features to ensure functionality.</h3>
+
+* To carry out automated testing a [Test.py](blog/tests.py) file was created and `python manage.py` test was ran in terminal to start testing.
+
+- **Automated Testing**: All testing pass
+      <details>
+          <summary> Testing </summary>
+          <img src="documentation/validation/automated-testing.png" alt="Testing" width="700">
+          <br>
+      </details>
+
+<h4> This project uses django-ckeditor (CKEditor 4). For future improvements, switching to CKEditor 5 or another secure modern editor is recommended. </h4>
 
 ### Validation Results
 

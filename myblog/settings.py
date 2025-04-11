@@ -199,15 +199,16 @@ CKEDITOR_CONFIGS = {
                 "autolink",
             ]
         ),
-        "removePlugins": "image,iframe,pagebreak,flash",  # Disable media
+        "removePlugins": "image,iframe,pagebreak,flash",
         "disableNativeSpellChecker": False,
-        "format_tags": "p;h2;h3",  # Allow only these heading levels
-        "format_default": "p",      # Default to paragraph format
-        "enterMode": 2,             # Shift+Enter creates line breaks
-        "shiftEnterMode": 1,        # Enter creates paragraphs
+        "format_tags": "p;h2;h3",
+        "format_default": "p",
+        "enterMode": 2,
+        "shiftEnterMode": 1,
         "forcePasteAsPlainText": True,
     }
 }
+SILENCED_SYSTEM_CHECKS = ['ckeditor.W001']
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
