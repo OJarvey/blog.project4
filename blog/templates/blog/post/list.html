@@ -16,7 +16,7 @@
 
   <form method="get" class="filter-form">
     <select name="filter" onchange="this.form.submit()" class="form-control">
-      <option {% if not request.GET.filter %}selected{% endif %}>Select Filter</option>
+      <option value="" {% if not request.GET.filter %}selected{% endif %}>Select Filter</option>
       <option value="name" {% if request.GET.filter == "name" %}selected{% endif %}>Name (A-Z)</option>
       <option value="date" {% if request.GET.filter == "date" %}selected{% endif %}>Old to New</option>
       <option value="trending" {% if request.GET.filter == "trending" %}selected{% endif %}>Trending</option>
