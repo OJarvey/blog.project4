@@ -336,7 +336,6 @@ Wireframes for both mobile and desktop versions were created using Balsamiq to p
 - Gunicorn (for production server)
 - Dj-database-url (for database configuration)
 
-
 ## Setup and Installation
 
 ### Prerequisites
@@ -564,10 +563,12 @@ cd blog.project4
 
 ## Credits
 
-**Code:**
 - Django documentation for ORM and views
 - Bootstrap documentation for frontend components
 - Django 5 book for setup [here](https://amzn.eu/d/62R6ksJ)
+- Code Institute for resources.
+- ChatGPT for debuging code.
+- [Stackoverflow](https://stackoverflow.com/)
 
 **Acknowledgements:**
 - Special thanks to mentors and peers who provided valuable feedback and guidance during development.
