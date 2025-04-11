@@ -326,10 +326,16 @@ Wireframes for both mobile and desktop versions were created using Balsamiq to p
   - [Chrome Dev Tools](https://developer.chrome.com/docs/devtools/) for debugging
   - [Chrome Lighthouse](https://developer.chrome.com/docs/lighthouse/overview/) for performance testing
   
-**Python Packages**:
-- Django
-- Whitenoise
-- Psycopg2
+**Key Packages**:
+- Django-allauth (for authentication)
+- Django-taggit (for tagging functionality)
+- Django-ckeditor (for rich text editing)
+- Cloudinary/Django-cloudinary-storage (for image storage)
+- Pillow (for image processing)
+- Python-dotenv (for environment variable management)
+- Gunicorn (for production server)
+- Dj-database-url (for database configuration)
+
 
 ## Setup and Installation
 
