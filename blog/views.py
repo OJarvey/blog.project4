@@ -310,17 +310,17 @@ def post_list_by_category(request, category_slug):
     """Display posts filtered by category."""
     category = get_object_or_404(Category, slug=category_slug)
     posts_list = Post.published.filter(category=category)
-    
     filter_option = request.GET.get("filter")
     if filter_option == "name":
         posts_list = posts_list.order_by("title")
     elif filter_option == "date":
         posts_list = posts_list.order_by("publish", "created")
     elif filter_option == "trending":
-        posts_list = posts_list.annotate(comment_count=Count("comments")).order_by("-comment_count")
+        posts_list = posts_list.annotate(comment_count=Count(
+            "comments")).order_by("-comment_count")
     else:
         posts_list = posts_list.order_by("-publish")
-    
+
     paginator = Paginator(posts_list, 3)
     page_number = request.GET.get("page", 1)
     try:

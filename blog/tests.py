@@ -4,10 +4,13 @@ from django.urls import reverse
 from blog.models import Post, Category, Comment
 from django.utils import timezone
 
+
 class PostViewTests(TestCase):
     def setUp(self):
-        self.user = get_user_model().objects.create_user(username='testuser', password='password')
-        self.category = Category.objects.create(name='TestCategory', slug='test-category')
+        self.user = get_user_model().objects.create_user(
+            username='testuser', password='password')
+        self.category = Category.objects.create(
+            name='TestCategory', slug='test-category')
         self.post = Post.objects.create(
             title='Test Post',
             slug='test-post',
@@ -29,9 +32,11 @@ class PostViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Test Post')
 
+
 class PostExtraTests(TestCase):
     def setUp(self):
-        self.user = get_user_model().objects.create_user(username='testuser', password='password')
+        self.user = get_user_model().objects.create_user(
+            username='testuser', password='password')
         self.category = Category.objects.create(name='Tech', slug='tech')
         self.post = Post.objects.create(
             title='Extra Test Post',
@@ -44,7 +49,8 @@ class PostExtraTests(TestCase):
         )
 
     def test_search_view_returns_results(self):
-        response = self.client.get(reverse('blog:post_search'), {'query': 'Extra'})
+        response = self.client.get(reverse(
+            'blog:post_search'), {'query': 'Extra'})
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Extra Test Post')
 
@@ -66,7 +72,8 @@ class PostExtraTests(TestCase):
             follow=True
         )
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(Comment.objects.filter(post=self.post, name='testuser').exists())
+        self.assertTrue(Comment.objects.filter(
+            post=self.post, name='testuser').exists())
 
     def test_create_post_view_authenticated(self):
         self.client.login(username='testuser', password='password')
@@ -74,6 +81,7 @@ class PostExtraTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_post_list_by_category(self):
-        response = self.client.get(reverse('blog:post_list_by_category', args=[self.category.slug]))
+        response = self.client.get(reverse(
+            'blog:post_list_by_category', args=[self.category.slug]))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Extra Test Post')
